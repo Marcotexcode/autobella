@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModellosTable extends Migration
+class CreateModelliTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,14 @@ class CreateModellosTable extends Migration
      */
     public function up()
     {
-        Schema::create('modellos', function (Blueprint $table) {
+        Schema::create('modelli', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('marca_id');
+            $table->string('nome');
+            $table->string('anno_commercializzazione');
+            $table->foreign('marca_id')->references('id')->on('marche')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ class CreateModellosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modellos');
+        Schema::dropIfExists('modelli');
     }
 }

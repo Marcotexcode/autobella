@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ricambi extends Model
 {
     use HasFactory;
+
+    protected $table = 'ricambi';
 }
