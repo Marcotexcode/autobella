@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Ricambio;
 use App\Models\Fornitore;
 use App\Models\Categoria;
+use App\Models\Modello;
+use App\Models\ModelloRicambio;
+
+
 
 
 
@@ -19,16 +23,19 @@ class RicambiController extends Controller
     public function index()
     {
         $ricambi = Ricambio::all();
-        // // dd(Ricambio::find(1)->fornitore);
-        // dd(Ricambio::find(1)->categoria);
 
-
-        // // ricambi = Ricambio::all();
-
-        //  dd(Categoria::find(1)->ricambi);
-    
+        // $user = Ricambio::find(2);
         
+        // foreach ($user->modelli as $role) {
+        //     dd($role);
+        // }
+
+        // $user = Modello::find(1);
         
+        // // foreach ($user->ricambi as $role) {
+        // //     dd($role);
+        // // }
+
         return view('ricambi.index', compact('ricambi'));
     }
 
@@ -37,13 +44,14 @@ class RicambiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Ricambio  $ricambi)
+    public function create()
     {
         $categorie = Categoria::all();
         $fornitori = Fornitore::all();
+        $modelli = Modello::all();
 
-        return view('ricambi.create', compact('categorie','fornitori'));
 
+        return view('ricambi.create', compact('categorie','fornitori','modelli'));
     }
 
     /**
@@ -62,7 +70,17 @@ class RicambiController extends Controller
         //     'provincia' => 'required',
         //     'p_iva' => 'required'
         // ]);
+        
         $ricambi = Ricambio::create($request->all());
+
+        $modelli = $request->input('modello_id', []);
+
+        foreach ($modelli as $modello) {
+            $pizzaExtra = new ModelloRicambio;
+            $pizzaExtra->modello_id = $modello;
+            $pizzaExtra->ricambio_id = $ricambi->id;
+            $pizzaExtra->save();  
+        }
 
         return redirect()->route('ricambi.index');
     }
@@ -89,7 +107,10 @@ class RicambiController extends Controller
     {
         $categorie = Categoria::all();
         $fornitori = Fornitore::all();
-        return view('ricambi.edit', compact('ricambi', 'categorie', 'fornitori'));
+        $modelli = Modello::all();
+        $modelliScelti = collect($ricambi->modelli)->pluck('id')->toArray();
+
+        return view('ricambi.edit', compact('ricambi', 'categorie', 'fornitori', 'modelli', 'modelliScelti'));
     }
 
     /**
@@ -106,6 +127,19 @@ class RicambiController extends Controller
         ]);
 
         $ricambi->update($request->all());
+
+        $cancella = ModelloRicambio::where('ricambio_id', $ricambi->id)->delete();
+
+        if ($request->modello_id) {
+            $modelli = $request->input('modello_id', []);
+
+            foreach ($modelli as $modello) {
+                $pizzaExtra = new ModelloRicambio;
+                $pizzaExtra->modello_id = $modello;
+                $pizzaExtra->ricambio_id = $ricambi->id;
+                $pizzaExtra->save();  
+            }
+        }
         
         return redirect()->route('ricambi.index');
     }

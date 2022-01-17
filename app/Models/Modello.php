@@ -17,7 +17,13 @@ class Modello extends Model
         'anno_commercializzazione'
     ];
 
-    public function marche() {
+    public function marche() 
+    {
         return $this->hasMany(Marca::class);
+    }
+
+    public function ricambi()
+    {
+        return $this->belongsToMany(Ricambio::class);
     }
 }

@@ -52,7 +52,20 @@
                                 @endforeach 
                             </select>
                         </div>
-                        
+
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h4>Modelli compatibili</h4>
+                            <div class="card-text">
+                                @foreach ($modelli as $modello)  
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="modello_id[]" value="{{$modello->id}}" type="checkbox" id="extraIndex">
+                                        <label for="extraIndex" class="form-check-label">
+                                             {{$modello->nome}}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>     
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>

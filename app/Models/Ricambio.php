@@ -28,4 +28,9 @@ class Ricambio extends Model
     {
         return $this->belongsTo(Fornitore::class);
     }
+
+    public function modelli()
+    {
+        return $this->belongsToMany(Modello::class);
+    }
 }

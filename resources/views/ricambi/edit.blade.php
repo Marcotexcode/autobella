@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-12 margin-tb">
                     <div class="pull-left">
-                        <h2>Aggiungi Ricambio</h2>
+                        <h2>Modifica Ricambio</h2>
                     </div>
                     <div class="pull-right">
                         <a class="btn btn-primary" href="{{ route('ricambi.index') }}"> Back</a>
@@ -53,7 +53,20 @@
                                 @endforeach 
                             </select>
                         </div>
-                        
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h4>Modelli compatibili</h4>
+                            <div class="card-text">
+                                {{-- Usare in array --}}
+                                @foreach ($modelli as $modello)  
+                                    <div class="form-check">
+                                        <input {{ in_array( $modello->id, $modelliScelti) ? 'checked' : ''}} class="form-check-input" name="modello_id[]" value="{{$modello->id}}" type="checkbox" id="extraIndex">
+                                        <label for="extraIndex" class="form-check-label">
+                                             {{$modello->nome}}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>   
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
