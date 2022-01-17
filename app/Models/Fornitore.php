@@ -10,4 +10,18 @@ class Fornitore extends Model
     use HasFactory;
 
     protected $table = 'fornitori';
+
+    protected $fillable = [
+        'regione_sociale',
+        'indirizzo',
+        'comune',
+        'cap',
+        'provincia',
+        'p_iva'
+    ];
+
+    public function ricambio()
+    {
+        return $this->belongsTo(Ricambi::class);
+    }
 }

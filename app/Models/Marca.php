@@ -10,4 +10,13 @@ class Marca extends Model
     use HasFactory;
 
     protected $table = 'marche';
+
+    protected $fillable = [
+        'nome'
+    ];
+
+    public function modello()
+    {
+        return $this->belongsTo(Modello::class);
+    }
 }

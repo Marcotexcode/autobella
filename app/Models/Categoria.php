@@ -10,4 +10,13 @@ class Categoria extends Model
     use HasFactory;
 
     protected $table = 'categorie';
+
+    protected $fillable = [
+        'desctizione'
+    ];
+    
+    public function ricambio()
+    {
+        return $this->belongsTo(Ricambi::class);
+    }
 }
