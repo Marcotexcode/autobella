@@ -12,7 +12,7 @@ class Categoria extends Model
     protected $table = 'categorie';
 
     protected $fillable = [
-        'desctizione'
+        'descrizione'
     ];
     
     public function ricambio()
