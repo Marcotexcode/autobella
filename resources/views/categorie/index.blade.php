@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        <h2>Categorie</h2>
         <div class="row my-3">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right">

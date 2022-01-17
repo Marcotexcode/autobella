@@ -20,8 +20,8 @@ class Fornitore extends Model
         'p_iva'
     ];
 
-    public function ricambio()
+    public function ricambi()
     {
-        return $this->belongsTo(Ricambi::class);
+        return $this->hasMany(Ricambio::class);
     }
 }

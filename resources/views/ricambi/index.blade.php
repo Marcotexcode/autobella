@@ -2,10 +2,11 @@
 
 @section('content')
     <div class="container">
+        <h2>Ricambi</h2>
         <div class="row my-3">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('categorie.create') }}">Aggiungi Fornitore</a>
+                    <a class="btn btn-success" href="{{ route('ricambi.create') }}">Aggiungi Fornitore</a>
                 </div>
             </div>
         </div>
@@ -15,18 +16,24 @@
                     <thead>
                       <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Descrizione</th>
+                        <th scope="col">Codice</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Fornitore</th>
+                        <th scope="col">Prezzo</th>
                         <th scope="col">Azioni</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($categorie as $categoria)
+                        @foreach ($ricambi as $ricambio)
                         <tr>
-                            <th>{{$categoria->id}}</th>
-                            <td>{{$categoria->descrizione}}</td>
+                            <th>{{$ricambio->id}}</th>
+                            <td>{{$ricambio->codice}}</td>
+                            <td>{{$ricambio->categoria->id}}</td>
+                            <td>{{$ricambio->fornitore->ragione_sociale}}</td>
+                            <td>{{$ricambio->prezzo}}</td>
                             <td>
-                                <form action="{{ route('categorie.destroy', $categoria->id)}}" method="POST">
-                                    <a class="btn btn-primary" href="{{ route('categorie.edit', $categoria->id) }}">Modifica</a>
+                                <form action="{{ route('ricambi.destroy', $ricambio->id)}}" method="POST">
+                                    <a class="btn btn-primary" href="{{ route('ricambi.edit', $ricambio->id) }}">Modifica</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"  class="btn btn-danger">Elimina</button>

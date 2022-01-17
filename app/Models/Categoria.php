@@ -15,8 +15,8 @@ class Categoria extends Model
         'descrizione'
     ];
     
-    public function ricambio()
+    public function ricambi()
     {
-        return $this->belongsTo(Ricambi::class);
+        return $this->hasMany(Ricambio::class);
     }
 }

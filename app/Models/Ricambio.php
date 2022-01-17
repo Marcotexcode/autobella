@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ricambi extends Model
+class Ricambio extends Model
 {
     use HasFactory;
 
@@ -15,16 +15,17 @@ class Ricambi extends Model
         'categoria_id',
         'fornitore_id',
         'descrizione',
-        'prezzo'
+        'prezzo',
+        'codice'
     ];
 
-    public function categorie()
+    public function categoria()
     {
-        return $this->hasMany(Categoria::class);
+        return $this->belongsTo(Categoria::class);
     }
 
-    public function fornitori()
+    public function fornitore()
     {
-        return $this->hasMany(Fornitore::class);
+        return $this->belongsTo(Fornitore::class);
     }
 }
