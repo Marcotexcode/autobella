@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FornitoriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/fori', function () {
+    return view('fornitori.index');
+});
+
+//Route::view('/forintori', 'fornitori.index');
+
 Auth::routes();
+
+Route::resource('fornitori', FornitoriController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

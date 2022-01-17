@@ -12,7 +12,7 @@ class Fornitore extends Model
     protected $table = 'fornitori';
 
     protected $fillable = [
-        'regione_sociale',
+        'ragione_sociale',
         'indirizzo',
         'comune',
         'cap',

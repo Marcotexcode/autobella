@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Fornitore;
+
 
 class FornitoriController extends Controller
 {
@@ -13,7 +15,9 @@ class FornitoriController extends Controller
      */
     public function index()
     {
-        //
+        $fornitori = Fornitore::all();
+
+        return view('fornitori.index', compact('fornitori'));
     }
 
     /**
@@ -23,7 +27,8 @@ class FornitoriController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('fornitori.create');
     }
 
     /**
@@ -34,7 +39,17 @@ class FornitoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'ragione_sociale' => 'required',
+            'indirizzo' => 'required',
+            'comune' => 'required',
+            'cap' => 'required',
+            'provincia' => 'required',
+            'p_iva' => 'required'
+        ]);
+        $fornitori = Fornitore::create($request->all());
+
+        return redirect()->route('fornitori.index');
     }
 
     /**
@@ -43,9 +58,9 @@ class FornitoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show(Fornitore $fornitori)
+    {   
+        return view('fornitori.show', compact('fornitori'));
     }
 
     /**
@@ -54,9 +69,9 @@ class FornitoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Fornitore  $fornitori)
     {
-        //
+        return view('fornitori.edit', compact('fornitori'));
     }
 
     /**
@@ -66,9 +81,20 @@ class FornitoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Fornitore $fornitori)
     {
-        //
+        $request->validate([
+            'ragione_sociale' => 'required',
+            'indirizzo' => 'required',
+            'comune' => 'required',
+            'cap' => 'required',
+            'provincia' => 'required',
+            'p_iva' => 'required'
+        ]);
+
+        $fornitori->update($request->all());
+
+        return redirect()->route('fornitori.index');
     }
 
     /**
@@ -77,8 +103,10 @@ class FornitoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Fornitore $fornitori)
     {
-        //
+        $fornitori->delete();
+
+        return redirect()->route('fornitori.index');
     }
 }
