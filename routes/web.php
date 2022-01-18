@@ -5,6 +5,8 @@ use App\Http\Controllers\FornitoriController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\RicambiController;
 use App\Http\Controllers\MarcheController;
+use App\Http\Controllers\ModelliController;
+
 
 
 
@@ -35,6 +37,7 @@ Route::resource('fornitori', FornitoriController::class);
 Route::resource('categorie', CategorieController::class);
 Route::resource('ricambi', RicambiController::class);
 Route::resource('marche', MarcheController::class);
+Route::resource('modelli', ModelliController::class);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

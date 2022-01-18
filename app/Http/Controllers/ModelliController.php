@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Modello;
+use App\Models\Ricambio;
+use App\Models\Marca;
+use App\Models\ModelloRicambio;
+
+
+
 class ModelliController extends Controller
 {
     /**
@@ -13,7 +20,9 @@ class ModelliController extends Controller
      */
     public function index()
     {
-        //
+        $modelli = Modello::all();
+
+        return view('modelli.index', compact('modelli'));
     }
 
     /**
@@ -23,7 +32,10 @@ class ModelliController extends Controller
      */
     public function create()
     {
-        //
+        $ricambi = Ricambio::all();
+        $marche = Marca::all();
+
+        return view('modelli.create', compact('ricambi','marche'));
     }
 
     /**
@@ -34,7 +46,18 @@ class ModelliController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $modelli = Modello::create($request->all());
+
+        $ricambi = $request->input('ricambio_id', []);
+
+        foreach ($ricambi as $ricambio) {
+            $ricambioCompatibile = new ModelloRicambio;
+            $ricambioCompatibile->ricambio_id = $ricambio;
+            $ricambioCompatibile->modello_id = $modelli->id;
+            $ricambioCompatibile->save();
+        }
+
+        return redirect()->route('modelli.index');
     }
 
     /**
@@ -43,9 +66,9 @@ class ModelliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Modello $modelli)
     {
-        //
+        return view('miodelli.show', compact('modelli'));
     }
 
     /**
@@ -54,9 +77,15 @@ class ModelliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Modello $modelli)
     {
-        //
+        $marche = Marca::all();
+
+        $ricambi = Ricambio::all();
+
+        $ricambiScelti = collect($modelli->ricambi)->pluck('id')->toArray();
+
+        return view('modelli.edit', compact('modelli', 'marche', 'ricambi', 'ricambiScelti'));
     }
 
     /**
@@ -66,9 +95,24 @@ class ModelliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Modello $modelli)
     {
-        //
+        $modelli->update($request->all());
+
+        $cancella = ModelloRicambio::where('modello_id', $modelli->id)->delete();
+
+        if($request->ricambio_id) {
+            $ricambi = $request->input('ricambio_id', []);
+
+            foreach ($ricambi as $ricambio) {
+                $ricambioCompatibile = new ModelloRicambio;
+                $ricambioCompatibile->ricambio_id = $ricambio;
+                $ricambioCompatibile->modello_id = $modelli->id;
+                $ricambioCompatibile->save();
+            }
+        }
+
+        return redirect()->route('modelli.index');
     }
 
     /**
@@ -77,8 +121,10 @@ class ModelliController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Modello $modelli)
     {
-        //
+        $modelli->delete();
+
+        return redirect()->route('modelli.index');
     }
 }

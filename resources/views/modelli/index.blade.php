@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <h2>Ricambi</h2>
+        <h2>Modelli</h2>
         <div class="row my-3">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('ricambi.create') }}">Aggiungi Fornitore</a>
+                    <a class="btn btn-success" href="{{ route('modelli.create') }}">Aggiungi Modello</a>
                 </div>
             </div>
         </div>
@@ -16,24 +16,21 @@
                     <thead>
                       <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Codice</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Fornitore</th>
-                        <th scope="col">Prezzo</th>
-                        <th scope="col">Azioni</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Modello</th>
+                        <th scope="col">Anno Commercializzazione</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ricambi as $ricambio)
+                        @foreach ($modelli as $modello)
                         <tr>
-                            <th>{{$ricambio->id}}</th>
-                            <td>{{$ricambio->codice}}</td>
-                            <td>{{$ricambio->categoria->id}}</td>
-                            <td>{{$ricambio->fornitore->ragione_sociale}}</td>
-                            <td>{{$ricambio->prezzo}}</td>
+                            <th>{{$modello->id}}</th>
+                            <td>{{$modello->marca->nome}}</td>
+                            <td>{{$modello->nome}}</td>
+                            <td>{{$modello->anno_commercializzazione}}</td>
                             <td>
-                                <form action="{{ route('ricambi.destroy', $ricambio->id)}}" method="POST">
-                                    <a class="btn btn-primary" href="{{ route('ricambi.edit', $ricambio->id) }}">Modifica</a>
+                                <form action="{{ route('modelli.destroy', $modello->id)}}" method="POST">
+                                    <a class="btn btn-primary" href="{{ route('modelli.edit', $modello->id) }}">Modifica</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"  class="btn btn-danger">Elimina</button>

@@ -7,67 +7,53 @@
             <div class="row">
                 <div class="col-lg-12 margin-tb">
                     <div class="pull-left">
-                        <h2>Aggiungi Ricambio</h2>
+                        <h2>Aggiungi Modello</h2>
                     </div>
                     <div class="pull-right">
-                        <a class="btn btn-primary" href="{{ route('ricambi.index') }}"> Back</a>
+                        <a class="btn btn-primary" href="{{ route('modelli.index') }}">Torna indietro</a>
                     </div>
                 </div>
             </div>       
-            <form action="{{ route('ricambi.store') }}" method="POST">
+            <form action="{{ route('modelli.store') }}" method="POST">
                 @csrf
                 <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Codice:</strong>
-                                <input type="text" name="codice" class="form-control">
+                                <strong>Nome:</strong>
+                                <input type="text" name="nome" class="form-control">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Descrizione:</strong>
-                                <textarea class="form-control" style="height:150px" name="descrizione" ></textarea>
+                                <strong>Anno commercializzazione:</strong>
+                                <input type="text" name="anno_commercializzazione" class="form-control">
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <strong>Prezzo:</strong>
-                                <input type="text" name="prezzo" class="form-control">
-                            </div>
-                        </div>
-                        
-                        <div class="card-text">
-                            <h4>Categoria</h4>
-                            <select name='categoria_id' class="bg-gray-600 appearance-none">
-                                @foreach ($categorie as $categoria)
-                                    <option value="{{$categoria->id}}">{{$categoria->id}}</option>
-                                @endforeach 
-                            </select>
-                        </div>
-                        <div class="card-text">
-                            <h4>Fornitori</h4>
-                            <select name='fornitore_id' class="bg-gray-600 appearance-none">
-                                @foreach ($fornitori as $fornitore)
-                                    <option value="{{$fornitore->id}}">{{$fornitore->ragione_sociale}}</option>
-                                @endforeach 
-                            </select>
                         </div>
 
+                        <div class="card-text">
+                            <h4>Marca</h4>
+                            <select name='marca_id' class="bg-gray-600 appearance-none">
+                                @foreach ($marche as $marca)
+                                    <option value="{{$marca->id}}">{{$marca->nome}}</option>
+                                @endforeach 
+                            </select>
+                        </div>
+                       
                         <div class="col-xs-12 col-sm-12 col-md-12">
-                            <h4>Modelli compatibili</h4>
+                            <h4>Ricambi compatibili</h4>
                             <div class="card-text">
-                                @foreach ($modelli as $modello)  
+                                @foreach ($ricambi as $ricambio)  
                                     <div class="form-check">
-                                        <input class="form-check-input" name="modello_id[]" value="{{$modello->id}}" type="checkbox" id="extraIndex">
+                                        <input class="form-check-input" name="ricambio_id[]" value="{{$ricambio->id}}" type="checkbox" id="extraIndex">
                                         <label for="extraIndex" class="form-check-label">
-                                             {{$modello->nome}}
+                                             {{$ricambio->codice}}
                                         </label>
                                     </div>
                                 @endforeach
                             </div>
                         </div>     
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Invia</button>
                     </div>
                 </div>              
             </form>

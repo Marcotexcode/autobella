@@ -83,7 +83,7 @@ class RicambiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ricambio  $ricambi)
+    public function edit(Ricambio $ricambi)
     {
         $categorie = Categoria::all();
         $fornitori = Fornitore::all();
