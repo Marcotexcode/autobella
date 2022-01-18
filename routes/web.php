@@ -7,6 +7,8 @@ use App\Http\Controllers\RicambiController;
 use App\Http\Controllers\MarcheController;
 use App\Http\Controllers\ModelliController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\RigaOrdiniController;
+
 
 
 
@@ -41,6 +43,8 @@ Route::resource('ricambi', RicambiController::class);
 Route::resource('marche', MarcheController::class);
 Route::resource('modelli', ModelliController::class);
 Route::resource('/', WelcomeController::class);
+Route::resource('ordine', RigaOrdiniController::class);
+
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');
 
 

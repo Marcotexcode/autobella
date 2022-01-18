@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Ricambio;
 use App\Models\Marca;
 use App\Models\Modello;
+use App\Models\OrdineTestata;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -48,9 +50,20 @@ class WelcomeController extends Controller
         //     $ricambi = $ricambi->where('start_now', 'LIKE', "%{$filtriRicerca['annoAuto']}%");
         // }
 
+        // Vedere se l'utente ha un carrello
+        $carrelli = OrdineTestata::where('tipo', 0)->get();
+
+        $righeOrdine = 0;
+
+        // Prendere tutti i record della colonna row_order_id 
+        foreach ($carrelli as $carrello) { 
+            // Sommare quantity 
+            $righeOrdine = $righeOrdine + $carrello->ordine_righe->sum('quantità');  
+        } 
+
         $ricambi = $ricambi->get();
         
-        return view('welcome', compact('ricambi'));
+        return view('welcome', compact('ricambi','righeOrdine'));
     }
 
     /**

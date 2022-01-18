@@ -66,35 +66,48 @@
                                 <label for="exampleInputEmail1">Anno</label>
                                 <input type="number" name="annoAuto" class="form-control my-3" id="exampleInputEmail1">
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                          </form>
+                            <button type="submit" class="btn btn-primary">Trova</button>
+                        </form>
+                        <div class="row">
+                            <div class="col d-flex">
+                                <h3 class="m-4">Totale carrello: {{$righeOrdine}}</h3>
+                                <button class="btn my-4 btn-primary">Vai al carrello</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col d-flex justify-content-around">
                         @foreach ($ricambi as $ricambio)
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="https://231719-715203-raikfcquaxqncofqfm.stackpathdns.com/media/wysiwyg/Vendita_Ricambi_Auto.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                <h5 class="card-title"><strong>{{$ricambio->codice}}</strong></h5>
-                                <h6 class="card-title"><strong>Fornitore: </strong>{{$ricambio->fornitore->ragione_sociale}}</h6>
-                                <h6 class="card-title"><strong>Prezzo: </strong>{{$ricambio->prezzo}} €</h6>
-                                <h6 class="card-title"><strong>Compatibile con: </strong>  
-                                    @foreach ($ricambio->modelli as $item)
-                                       {{$item->marca->nome}}-{{$item->nome}}{{-- 
-                                        --}}@if (!$loop->last){{--
-                                        --}},
-                                        @endif
-                                    @endforeach
-                                </h6>
-                                <h6><strong>Descrizione: </strong></h6>
-                                <p class="card-text">{{$ricambio->descrizione}}</p>
-                                    <label for=""><strong>Quantità</strong></label>
-                                    <input  placeholder="0" name="quantity" type="number">
-                                <a href="#" class="btn btn-primary">Invia</a>
+                            <form action="{{ route('ordine.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="ricambio_id" value="{{$ricambio->id}}">
+                                <div class="card" style="width: 18rem;">
+                                    <img class="card-img-top" src="https://231719-715203-raikfcquaxqncofqfm.stackpathdns.com/media/wysiwyg/Vendita_Ricambi_Auto.jpg" alt="Card image cap">
+                                    <div class="card-body">
+                                    <h5 class="card-title"><strong>{{$ricambio->codice}}</strong></h5>
+                                    <h6 class="card-title"><strong>Fornitore: </strong>{{$ricambio->fornitore->ragione_sociale}}</h6>
+                                    <h6 class="card-title"><strong>Prezzo: </strong>{{$ricambio->prezzo}} €</h6>
+                                    <h6 class="card-title"><strong>Compatibile con: </strong>  
+                                        @foreach ($ricambio->modelli as $item)
+                                        {{$item->marca->nome}}-{{$item->nome}}{{-- 
+                                            --}}@if (!$loop->last){{--
+                                            --}},
+                                            @endif
+                                        @endforeach
+                                    </h6>
+                                    <h6><strong>Descrizione: </strong></h6>
+                                    <p class="card-text">{{$ricambio->descrizione}}</p>
+                                    <div class="form-check">
+                                        <label class="form-check-label pt-3 text-center" for=""><strong>Quantità</strong></label>
+                                        <input class="form-input" placeholder="0" name="quantità" type="number">
+                                    </div>
+                                    <button type="submit" href="#" class="btn btn-primary my-4">Aggiungi Carrello</button>
+
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         @endforeach
                     </div>
                 </div>

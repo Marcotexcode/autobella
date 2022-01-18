@@ -11,4 +11,15 @@ class OrdineTestata extends Model
 
     protected $table = 'ordine_testate';
 
+    protected $fillable = [
+        'user_id',
+        'tipo',
+        'indirizzo',
+        'telefono'
+    ];
+
+    public function ordine_righe()
+    {
+        return $this->hasMany(OrdineRiga::class);
+    }
 }
