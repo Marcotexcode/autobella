@@ -40,7 +40,7 @@
                             <h4>Categoria</h4>
                             <select name='categoria_id' class="bg-gray-600 appearance-none">
                                 @foreach ($categorie as $categoria)
-                                    <option value="{{$categoria->id}}">{{$categoria->id}}</option>
+                                    <option value="{{$categoria->id}}">{{$categoria->descrizione}}</option>
                                 @endforeach 
                             </select>
                         </div>

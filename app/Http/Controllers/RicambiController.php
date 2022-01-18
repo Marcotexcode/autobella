@@ -10,9 +10,6 @@ use App\Models\Modello;
 use App\Models\ModelloRicambio;
 
 
-
-
-
 class RicambiController extends Controller
 {
     /**
@@ -23,18 +20,6 @@ class RicambiController extends Controller
     public function index()
     {
         $ricambi = Ricambio::all();
-
-        // $user = Ricambio::find(2);
-        
-        // foreach ($user->modelli as $role) {
-        //     dd($role);
-        // }
-
-        // $user = Modello::find(1);
-        
-        // // foreach ($user->ricambi as $role) {
-        // //     dd($role);
-        // // }
 
         return view('ricambi.index', compact('ricambi'));
     }
@@ -50,7 +35,6 @@ class RicambiController extends Controller
         $fornitori = Fornitore::all();
         $modelli = Modello::all();
 
-
         return view('ricambi.create', compact('categorie','fornitori','modelli'));
     }
 
@@ -62,14 +46,11 @@ class RicambiController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'ragione_sociale' => 'required',
-        //     'indirizzo' => 'required',
-        //     'comune' => 'required',
-        //     'cap' => 'required',
-        //     'provincia' => 'required',
-        //     'p_iva' => 'required'
-        // ]);
+        $request->validate([
+            'codice' => 'required',
+            'descrizione' => 'required',
+            'prezzo' => 'required',
+        ]);
         
         $ricambi = Ricambio::create($request->all());
 
@@ -93,8 +74,7 @@ class RicambiController extends Controller
      */
     public function show(Ricambio  $ricambi)
     {
-        return view('ricambi.show', compact('ricambi'));
-        
+        return view('ricambi.show', compact('ricambi'));  
     }
 
     /**

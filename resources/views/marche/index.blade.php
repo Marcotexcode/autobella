@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container">
-        <h2>Ricambi</h2>
+        <h2>Marche</h2>
         <div class="row my-3">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('ricambi.create') }}">Aggiungi Ricambio</a>
+                    <a class="btn btn-success" href="{{ route('marche.create') }}">Aggiungi Marca</a>
                 </div>
             </div>
         </div>
@@ -16,24 +16,17 @@
                     <thead>
                       <tr>
                         <th scope="col">Id</th>
-                        <th scope="col">Codice</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Fornitore</th>
-                        <th scope="col">Prezzo €</th>
-                        <th scope="col">Azioni</th>
+                        <th scope="col">Nome</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ricambi as $ricambio)
+                        @foreach ($marche as $marca)
                         <tr>
-                            <th>{{$ricambio->id}}</th>
-                            <td>{{$ricambio->codice}}</td>
-                            <td>{{$ricambio->categoria->descrizione}}</td>
-                            <td>{{$ricambio->fornitore->ragione_sociale}}</td>
-                            <td>{{$ricambio->prezzo}}</td>
+                            <th>{{$marca->id}}</th>
+                            <td>{{$marca->nome}}</td>
                             <td>
-                                <form action="{{ route('ricambi.destroy', $ricambio->id)}}" method="POST">
-                                    <a class="btn btn-primary" href="{{ route('ricambi.edit', $ricambio->id) }}">Modifica</a>
+                                <form action="{{ route('marche.destroy', $marca->id)}}" method="POST">
+                                    <a class="btn btn-primary" href="{{ route('marche.edit', $marca->id) }}">Modifica</a>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"  class="btn btn-danger">Elimina</button>

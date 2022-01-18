@@ -41,7 +41,7 @@
                             <h4>Categoria</h4>
                             <select name='categoria_id' class="bg-gray-600 appearance-none">
                                 @foreach ($categorie as $categoria)
-                                    <option value="{{$categoria->id}}" {{$categoria->id == $ricambi->categoria_id ? 'selected' : ''}} value="{{$ricambi->categoria_id}}">{{$categoria->descrizione}}</option>
+                                    <option value="{{$categoria->id}}" {{$categoria->id == $ricambi->categoria_id ? 'selected' : ''}} value="{{$ricambi->categoria_id}}">{{$categoria->id}}</option>
                                 @endforeach 
                             </select>
                         </div>

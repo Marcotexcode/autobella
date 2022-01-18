@@ -6,7 +6,7 @@
         <div class="row my-3">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-right">
-                    <a class="btn btn-success" href="{{ route('ricambi.create') }}">Aggiungi Ricambio</a>
+                    <a class="btn btn-success" href="{{ route('ricambi.create') }}">Aggiungi Fornitore</a>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
                         <th scope="col">Codice</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Fornitore</th>
-                        <th scope="col">Prezzo €</th>
+                        <th scope="col">Prezzo</th>
                         <th scope="col">Azioni</th>
                       </tr>
                     </thead>
@@ -28,7 +28,7 @@
                         <tr>
                             <th>{{$ricambio->id}}</th>
                             <td>{{$ricambio->codice}}</td>
-                            <td>{{$ricambio->categoria->descrizione}}</td>
+                            <td>{{$ricambio->categoria->id}}</td>
                             <td>{{$ricambio->fornitore->ragione_sociale}}</td>
                             <td>{{$ricambio->prezzo}}</td>
                             <td>
