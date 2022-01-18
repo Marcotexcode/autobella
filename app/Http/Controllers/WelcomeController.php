@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ricambio;
 use App\Models\Marca;
+use App\Models\Modello;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,18 +23,27 @@ class WelcomeController extends Controller
         
         $filtriRicerca = session('filtriRicerca');
 
+
+        // $idRicambi = Ricambio::all();
+        // $extraIdEsistenti = collect($idRicambi)->pluck('id')->toArray();
+        // dd($extraIdEsistenti);
+
+       
         // Filtri Search
         if(isset($filtriRicerca['nomeRicambio'])) {
-        $ricambi = $ricambi->where('codice', 'LIKE', "%{$filtriRicerca['nomeRicambio']}%");
+            $ricambi = $ricambi->where('codice', 'LIKE', "%{$filtriRicerca['nomeRicambio']}%");
         }
 
         // if(isset($filtriRicerca['marcaAuto'])) {
         //     $ricambi = Marca::where('nome', 'LIKE', "%{$filtriRicerca['marcaAuto']}%");
         // }
 
-        // if(isset($filtriRicerca['modelloAuto'])) {      
-        //     $ricambi = $ricambi->where('nome', 'LIKE', "%{$filtriRicerca['modelloAuto']}%");
-        // }
+        if(isset($filtriRicerca['modelloAuto'])) { 
+            foreach ($ricambi as $ricambio) {
+                $ricambi = $ricambio->modelli->where('nome', 'LIKE', "%{$filtriRicerca['modelloAuto']}%");
+            }
+        }
+
         // if(isset($filtriRicerca['annoAuto'])) {
         //     $ricambi = $ricambi->where('start_now', 'LIKE', "%{$filtriRicerca['annoAuto']}%");
         // }

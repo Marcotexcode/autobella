@@ -35,6 +35,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
                     @else
+                        
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
@@ -76,10 +77,10 @@
                             <div class="card" style="width: 18rem;">
                                 <img class="card-img-top" src="https://231719-715203-raikfcquaxqncofqfm.stackpathdns.com/media/wysiwyg/Vendita_Ricambi_Auto.jpg" alt="Card image cap">
                                 <div class="card-body">
-                                <h5 class="card-title">{{$ricambio->codice}}</h5>
-                                <h6 class="card-title"> Fornitore: {{$ricambio->fornitore->ragione_sociale}}</h6>
-                                <h6 class="card-title"> Prezzo: {{$ricambio->prezzo}} €</h6>
-                                <h6 class="card-title">Compatibile con: 
+                                <h5 class="card-title"><strong>{{$ricambio->codice}}</strong></h5>
+                                <h6 class="card-title"><strong>Fornitore: </strong>{{$ricambio->fornitore->ragione_sociale}}</h6>
+                                <h6 class="card-title"><strong>Prezzo: </strong>{{$ricambio->prezzo}} €</h6>
+                                <h6 class="card-title"><strong>Compatibile con: </strong>  
                                     @foreach ($ricambio->modelli as $item)
                                        {{$item->marca->nome}}-{{$item->nome}}{{-- 
                                         --}}@if (!$loop->last){{--
@@ -87,8 +88,9 @@
                                         @endif
                                     @endforeach
                                 </h6>
+                                <h6><strong>Descrizione: </strong></h6>
                                 <p class="card-text">{{$ricambio->descrizione}}</p>
-                                    <label  for="">Quantità</label>
+                                    <label for=""><strong>Quantità</strong></label>
                                     <input  placeholder="0" name="quantity" type="number">
                                 <a href="#" class="btn btn-primary">Invia</a>
                                 </div>
