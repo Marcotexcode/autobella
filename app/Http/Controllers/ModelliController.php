@@ -46,6 +46,12 @@ class ModelliController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'marca_id' => 'required',
+            'nome' => 'required',
+            'anno_commercializzazione' => 'required'
+        ]);
+
         $modelli = Modello::create($request->all());
 
         $ricambi = $request->input('ricambio_id', []);
@@ -97,6 +103,12 @@ class ModelliController extends Controller
      */
     public function update(Request $request,Modello $modelli)
     {
+        $request->validate([
+            'marca_id' => 'required',
+            'nome' => 'required',
+            'anno_commercializzazione' => 'required'
+        ]);
+        
         $modelli->update($request->all());
 
         $cancella = ModelloRicambio::where('modello_id', $modelli->id)->delete();

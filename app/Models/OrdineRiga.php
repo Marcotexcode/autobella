@@ -17,4 +17,8 @@ class OrdineRiga extends Model
         'quantità',
     ];
 
+    public function ricambio()
+    {
+        return $this->belongsTo(Ricambio::class);
+    }
 }

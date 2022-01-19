@@ -103,7 +103,9 @@ class RicambiController extends Controller
     public function update(Request $request, Ricambio $ricambi)
     {
         $request->validate([
-            'descrizione' => 'required'
+            'codice' => 'required',
+            'descrizione' => 'required',
+            'prezzo' => 'required',
         ]);
 
         $ricambi->update($request->all());

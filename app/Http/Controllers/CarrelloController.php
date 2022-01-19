@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categoria;
+use App\Models\OrdineRiga;
 
 
-class CategorieController extends Controller
+class CarrelloController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categorie = Categoria::all();
+        $ordineRighe = OrdineRiga::all();
 
-        return view('categorie.index', compact('categorie'));
+        return view('carrello.index', compact('ordineRighe'));
     }
 
     /**
@@ -25,10 +25,9 @@ class CategorieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Categoria  $categorie)
+    public function create()
     {
-        return view('categorie.create');
-
+        //
     }
 
     /**
@@ -39,13 +38,7 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'descrizione' => 'required'
-        ]);
-        
-        $categorie = Categoria::create($request->all());
-
-        return redirect()->route('categorie.index');
+        //
     }
 
     /**
@@ -54,10 +47,9 @@ class CategorieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Categoria  $categorie)
+    public function show($id)
     {
-        return view('fornitori.show', compact('categorie'));
-        
+        //
     }
 
     /**
@@ -66,9 +58,11 @@ class CategorieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categoria  $categorie)
+    public function edit($id)
     {
-        return view('categorie.edit', compact('categorie'));
+        $ordineRiga = OrdineRiga::find($id);
+        //dd($ordineRiga);
+        return view('carrello.edit', compact('ordineRiga'));
     }
 
     /**
@@ -78,15 +72,15 @@ class CategorieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categoria $categorie)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'descrizione' => 'required'
+            'quantità' => 'required|numeric|min:0|not_in:0'
         ]);
 
-        $categorie->update($request->all());
-        
-        return redirect()->route('categorie.index');
+        $ordineRiga = OrdineRiga::find($id)->update($request->all());
+
+        return redirect()->route('carrello.index');
     }
 
     /**
@@ -95,10 +89,10 @@ class CategorieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categoria $categorie)
+    public function destroy($id)
     {
-        $categorie->delete();
+        OrdineRiga::find($id)->delete();
 
-        return redirect()->route('categorie.index');
+        return redirect()->route('carrello.index');
     }
 }

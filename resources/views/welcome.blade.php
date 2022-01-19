@@ -71,7 +71,7 @@
                         <div class="row">
                             <div class="col d-flex">
                                 <h3 class="m-4">Totale carrello: {{$righeOrdine}}</h3>
-                                <button class="btn my-4 btn-primary">Vai al carrello</button>
+                                <a href="{{ route('carrello.index') }}" class="btn my-4 btn-primary">Vai al carrello</a>
                             </div>
                         </div>
                     </div>

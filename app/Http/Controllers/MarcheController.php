@@ -38,6 +38,10 @@ class MarcheController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nome' => 'required',
+        ]);
+
         $marche = Marca::create($request->all());
 
         return redirect()->route('marche.index');
@@ -74,6 +78,10 @@ class MarcheController extends Controller
      */
     public function update(Request $request, Marca $marche)
     {
+        $request->validate([
+            'nome' => 'required',
+        ]);
+        
         $marche->update($request->all());
 
         return redirect()->route('marche.index');

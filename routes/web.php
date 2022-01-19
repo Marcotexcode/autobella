@@ -8,6 +8,8 @@ use App\Http\Controllers\MarcheController;
 use App\Http\Controllers\ModelliController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\RigaOrdiniController;
+use App\Http\Controllers\CarrelloController;
+
 
 
 
@@ -37,13 +39,15 @@ Route::get('/fori', function () {
 
 Auth::routes();
 
+Route::resource('/', WelcomeController::class);
 Route::resource('fornitori', FornitoriController::class);
 Route::resource('categorie', CategorieController::class);
 Route::resource('ricambi', RicambiController::class);
 Route::resource('marche', MarcheController::class);
 Route::resource('modelli', ModelliController::class);
-Route::resource('/', WelcomeController::class);
 Route::resource('ordine', RigaOrdiniController::class);
+Route::resource('carrello', CarrelloController::class);
+
 
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');
 

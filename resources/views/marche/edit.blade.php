@@ -9,6 +9,15 @@
                     <div class="pull-left">
                         <h2>Modifica Marca</h2>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="pull-right">
                         <a class="btn btn-primary" href="{{ route('marche.index') }}"> Torna indietro</a>
                     </div>
