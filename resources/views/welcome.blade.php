@@ -47,6 +47,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col my-5">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{route('filtroRicerca')}}" method="POST">
                             @csrf
                             <h2>Cerca ricambio</h2>

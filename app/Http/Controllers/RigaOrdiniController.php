@@ -39,7 +39,14 @@ class RigaOrdiniController extends Controller
     public function store(Request $request)
     {
         $testataOrdine = OrdineTestata::firstOrCreate(['tipo' => 0]);
-        
+
+        $request->validate([
+            'quantità' => 'required',
+        ],
+        [
+            'quantità.required' => 'Inserire quantità!!'
+        ]);
+
         $ordine = new OrdineRiga;
         $ordine->ordine_testata_id = $testataOrdine->id;
         $ordine->ricambio_id = $request->ricambio_id;

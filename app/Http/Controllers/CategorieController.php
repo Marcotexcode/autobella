@@ -41,6 +41,9 @@ class CategorieController extends Controller
     {
         $request->validate([
             'descrizione' => 'required'
+        ],
+        [
+            'descrizione.required' => 'Campo vuoto!! si prega di cimpilarlo per procedere'
         ]);
         
         $categorie = Categoria::create($request->all());

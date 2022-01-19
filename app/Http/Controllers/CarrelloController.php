@@ -92,7 +92,6 @@ class CarrelloController extends Controller
     public function destroy($id)
     {
         OrdineRiga::find($id)->delete();
-
         return redirect()->route('carrello.index');
     }
 }
