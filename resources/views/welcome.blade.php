@@ -87,13 +87,13 @@
                 </div>
 
                 <div class="row">
-                    <div class="col d-flex justify-content-around">
+                    <div  class="col d-flex  justify-content-between flex-wrap">
                         @foreach ($ricambi as $ricambio)
                             <form action="{{ route('ordine.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="ricambio_id" value="{{$ricambio->id}}">
-                                <div class="card" style="width: 18rem;">
-                                    <img class="card-img-top" src="https://231719-715203-raikfcquaxqncofqfm.stackpathdns.com/media/wysiwyg/Vendita_Ricambi_Auto.jpg" alt="Card image cap">
+                                <div class="card my-3" style="height: 600px; width: 18rem;">
+                                    <img class="card-img-top" style="height: 300px;" src="{{asset('storage/' . $ricambio->cover)}}" alt="Card image cap">
                                     <div class="card-body">
                                     <h5 class="card-title"><strong>{{$ricambio->codice}}</strong></h5>
                                     <h6 class="card-title"><strong>Fornitore: </strong>{{$ricambio->fornitore->ragione_sociale}}</h6>
@@ -106,8 +106,6 @@
                                             @endif
                                         @endforeach
                                     </h6>
-                                    <h6><strong>Descrizione: </strong></h6>
-                                    <p class="card-text">{{$ricambio->descrizione}}</p>
                                     <div class="form-check">
                                         <label class="form-check-label pt-3 text-center" for=""><strong>Quantità</strong></label>
                                         <input class="form-input" placeholder="0" name="quantità" type="number">

@@ -16,7 +16,8 @@ class Ricambio extends Model
         'fornitore_id',
         'descrizione',
         'prezzo',
-        'codice'
+        'codice',
+        'cover'
     ];
 
     public function categoria()

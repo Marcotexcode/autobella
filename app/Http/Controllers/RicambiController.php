@@ -8,7 +8,7 @@ use App\Models\Fornitore;
 use App\Models\Categoria;
 use App\Models\Modello;
 use App\Models\ModelloRicambio;
-
+use Illuminate\Support\Facades\Storage;
 
 class RicambiController extends Controller
 {
@@ -46,15 +46,26 @@ class RicambiController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'codice' => 'required',
             'descrizione' => 'required',
             'prezzo' => 'required',
+
         ]);
-        
+
         $ricambi = Ricambio::create($request->all());
 
         $modelli = $request->input('modello_id', []);
+
+        // IMMAGINE ***************************************************
+        if ($request->file('img')) {
+            $storage_path = Storage::disk('public')->put('immagini', $request->file('img'));
+            $ricambi->cover = $storage_path;
+            $ricambi->save();
+        }  
+        // IMMAGINE ***************************************************
+        
 
         foreach ($modelli as $modello) {
             $pizzaExtra = new ModelloRicambio;
@@ -112,6 +123,14 @@ class RicambiController extends Controller
 
         $cancella = ModelloRicambio::where('ricambio_id', $ricambi->id)->delete();
 
+        // IMMAGINE ***************************************************
+        if ($request->file('img')) {
+            $storage_path = Storage::disk('public')->put('immagini', $request->file('img'));
+            $ricambi->cover = $storage_path;
+            $ricambi->save();
+        }  
+        // IMMAGINE ***************************************************
+
         if ($request->modello_id) {
             $modelli = $request->input('modello_id', []);
 
@@ -134,6 +153,7 @@ class RicambiController extends Controller
      */
     public function destroy(Ricambio $ricambi)
     {
+        Storage::disk('public')->delete($ricambi->cover);
         $ricambi->delete();
 
         return redirect()->route('ricambi.index');

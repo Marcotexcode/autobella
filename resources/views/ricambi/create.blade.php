@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>       
-            <form action="{{ route('ricambi.store') }}" method="POST">
+            <form action="{{ route('ricambi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -44,7 +44,10 @@
                                 <input type="text" name="prezzo" class="form-control">
                             </div>
                         </div>
-                        
+                        <div class="card-text">
+                            <label for="image" class="form-lable my-3"><strong>Inserisci immagine articolo</strong></label>
+                            <input id="image" type="file" name="img">
+                        </div>
                         <div class="card-text">
                             <h4>Categoria</h4>
                             <select name='categoria_id' class="bg-gray-600 appearance-none">

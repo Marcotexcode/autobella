@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>       
-            <form action="{{ route('ricambi.update', $ricambi->id) }}" method="POST">
+            <form action="{{ route('ricambi.update', $ricambi->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')  
                 <div class="row">
@@ -45,6 +45,18 @@
                                 <input type="text" name="prezzo" value="{{$ricambi->prezzo}}" class="form-control">
                             </div>
                         </div>
+                        {{-- immagine --}}
+                        @if ($ricambi->cover)
+                            <div class="col-3 my-5">
+                                <img class="card-img-top" style="height: 300px;" src="{{asset('storage/' . $ricambi->cover)}}" alt="Card image cap">
+                            </div>
+                        @endif
+                        
+                        <div class="card-text">
+                            <label for="img" class="form-lable my-3"><strong>Inserisci immagine articolo</strong></label>
+                            <input type="file" value="{{$ricambi->cover}}" name="img">
+                        </div>
+                        {{-- immagine --}}
                         
                         <div class="card-text">
                             <h4>Categoria</h4>
