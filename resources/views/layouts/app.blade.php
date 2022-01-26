@@ -26,23 +26,23 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                @can('administer')
-                    <a class="navbar-brand" href="{{ url('/fornitori') }}">
+                {{-- @can('administer') --}}
+                    <a class="navbar-brand" href="{{ route('fornitori.index') }}">
                         Fornitori
                     </a>
-                    <a class="navbar-brand" href="{{ url('/categorie') }}">
+                    <a class="navbar-brand" href="{{ route('categorie.index') }}">
                         Categorie
                     </a>
-                    <a class="navbar-brand" href="{{ url('/ricambi') }}">
+                    <a class="navbar-brand" href="{{ route('ricambi.index') }}">
                         Ricambi
                     </a>
-                    <a class="navbar-brand" href="{{ url('/marche') }}">
+                    <a class="navbar-brand" href="{{ route('marche.index') }}">
                         Marche
                     </a>
-                    <a class="navbar-brand" href="{{ url('/modelli') }}">
+                    <a class="navbar-brand" href="{{ route('modelli.index') }}">
                         Modelli
                     </a>
-                @endcan
+                {{-- @endcan --}}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

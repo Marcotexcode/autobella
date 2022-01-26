@@ -56,6 +56,23 @@ class RigaOrdiniController extends Controller
         return redirect('/');
     }
 
+
+    // ************* PROVA ************
+    public function ordiniSessione(Request $request)
+    {
+        $datiOrdini = array (
+            'nomeRicambio' => $request->input('nomeRicambio'),
+            'marcaAuto' => $request->input('ricambio_id'),
+            'modelloAuto' => $request->input('quantità'),
+            'annoAuto' => $request->input('annoAuto'),
+        );
+        dd($datiOrdini);
+        
+        session()->put('filtriRicerca', $datiRicerca);
+        
+        return redirect('/');
+    }
+
     /**
      * Display the specified resource.
      *

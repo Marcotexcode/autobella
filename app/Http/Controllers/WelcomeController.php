@@ -26,10 +26,7 @@ class WelcomeController extends Controller
         
         $filtriRicerca = session('filtriRicerca');
 
-       
-
-        $prova = Ricambio::all();
-       
+        $prova = Ricambio::all();       
        
         // Filtri Search
         if(isset($filtriRicerca['nomeRicambio'])) {

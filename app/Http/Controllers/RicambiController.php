@@ -51,7 +51,6 @@ class RicambiController extends Controller
             'codice' => 'required',
             'descrizione' => 'required',
             'prezzo' => 'required',
-
         ]);
 
         $ricambi = Ricambio::create($request->all());
@@ -65,7 +64,6 @@ class RicambiController extends Controller
             $ricambi->save();
         }  
         // IMMAGINE ***************************************************
-        
 
         foreach ($modelli as $modello) {
             $pizzaExtra = new ModelloRicambio;

@@ -9,11 +9,7 @@ use App\Http\Controllers\ModelliController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\RigaOrdiniController;
 use App\Http\Controllers\CarrelloController;
-
-
-
-
-
+use App\Http\Controllers\HomeController;
 
 
 /*
@@ -27,31 +23,24 @@ use App\Http\Controllers\CarrelloController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/fori', function () {
-    return view('fornitori.index');
-});
-
-//Route::view('/forintori', 'fornitori.index');
+Route::view('/', 'welcome');
 
 Auth::routes();
 
 Route::resource('/', WelcomeController::class);
-Route::resource('fornitori', FornitoriController::class);
-Route::resource('categorie', CategorieController::class);
-Route::resource('ricambi', RicambiController::class);
-Route::resource('marche', MarcheController::class);
-Route::resource('modelli', ModelliController::class);
 Route::resource('ordine', RigaOrdiniController::class);
 Route::resource('carrello', CarrelloController::class);
 
 
+// Rotte per amministratore
+Route::middleware('can:administer')->prefix('admin')->group(function () {
+    Route::resource('categorie', CategorieController::class);
+    Route::resource('modelli', ModelliController::class);
+    Route::resource('marche', MarcheController::class);
+    Route::resource('ricambi', RicambiController::class);
+    Route::resource('fornitori', FornitoriController::class);   
+});
+
+
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');
-
-
-
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');

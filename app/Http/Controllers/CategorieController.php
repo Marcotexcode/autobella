@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\Categoria;
+
 
 
 class CategorieController extends Controller
@@ -45,7 +47,7 @@ class CategorieController extends Controller
         [
             'descrizione.required' => 'Campo vuoto!! si prega di cimpilarlo per procedere'
         ]);
-        
+
         $categorie = Categoria::create($request->all());
 
         return redirect()->route('categorie.index');
@@ -60,7 +62,6 @@ class CategorieController extends Controller
     public function show(Categoria  $categorie)
     {
         return view('fornitori.show', compact('categorie'));
-        
     }
 
     /**
@@ -83,6 +84,7 @@ class CategorieController extends Controller
      */
     public function update(Request $request, Categoria $categorie)
     {
+
         $request->validate([
             'descrizione' => 'required'
         ]);
