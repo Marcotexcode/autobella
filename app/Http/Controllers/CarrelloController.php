@@ -15,42 +15,15 @@ class CarrelloController extends Controller
      */
     public function index()
     {
-        $ordineRighe = OrdineRiga::all();
+        //$ordineRighe = OrdineRiga::all();
+
+        $idCarrello = session('idCarrello');
+
+        $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
 
         return view('carrello.index', compact('ordineRighe'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

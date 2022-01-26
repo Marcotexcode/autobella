@@ -41,6 +41,6 @@ Route::middleware('can:administer')->prefix('admin')->group(function () {
     Route::resource('fornitori', FornitoriController::class);   
 });
 
-
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+

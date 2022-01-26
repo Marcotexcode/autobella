@@ -52,8 +52,9 @@ class WelcomeController extends Controller
             //$ricambi = $ricambi->where('start_now', 'LIKE', "%{$filtriRicerca['annoAuto']}%");
         }
 
+        $idCarrello = session('idCarrello');
         // Vedere se l'utente ha un carrello
-        $carrelli = OrdineTestata::where('tipo', 0)->get();
+        $carrelli = OrdineTestata::where('id', $idCarrello)->get();
 
         $righeOrdine = 0;
 

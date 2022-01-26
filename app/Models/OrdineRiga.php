@@ -21,4 +21,5 @@ class OrdineRiga extends Model
     {
         return $this->belongsTo(Ricambio::class);
     }
+  
 }
