@@ -19,8 +19,10 @@ class CategoriaTest extends TestCase
     {
         //$this->withoutExceptionHandling();
 
+        // Creo utente amministratore con factory
         $user = User::factory()->create(['livello_accesso' => '1']);
 
+        // Aggiungo un record 
         $response = $this->actingAs($user)->post(route('categorie.store'), [
             'descrizione' => 'descrizione',
         ]);

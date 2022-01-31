@@ -17,13 +17,10 @@ class CarrelloController extends Controller
     {
         //$ordineRighe = OrdineRiga::all();
 
-        $idCarrello = session('idCarrello');
-
-        $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
+        $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
 
         return view('carrello.index', compact('ordineRighe'));
     }
-
 
     /**
      * Show the form for editing the specified resource.

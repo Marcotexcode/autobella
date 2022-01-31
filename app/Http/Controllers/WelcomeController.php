@@ -49,12 +49,10 @@ class WelcomeController extends Controller
             $ricambi = $ricambi->whereHas('modelli', function (Builder $query) use($filtriRicerca) {
                 $query->where('anno_commercializzazione', 'LIKE', "%{$filtriRicerca['annoAuto']}%");
             });
-            //$ricambi = $ricambi->where('start_now', 'LIKE', "%{$filtriRicerca['annoAuto']}%");
         }
 
-        $idCarrello = session('idCarrello');
         // Vedere se l'utente ha un carrello
-        $carrelli = OrdineTestata::where('id', $idCarrello)->get();
+        $carrelli = OrdineTestata::where('id', session('idCarrello'))->get();
 
         $righeOrdine = 0;
 
@@ -63,10 +61,10 @@ class WelcomeController extends Controller
             // Sommare quantity 
             $righeOrdine = $righeOrdine + $carrello->ordine_righe->sum('quantità');  
         } 
-
+        $idCarrello = session('idCarrello');
         $ricambi = $ricambi->get();
         
-        return view('welcome', compact('ricambi','righeOrdine'));
+        return view('welcome', compact('ricambi','righeOrdine','idCarrello'));
     }
 
     /**
