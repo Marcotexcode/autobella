@@ -11,6 +11,7 @@ use App\Http\Controllers\RigaOrdiniController;
 use App\Http\Controllers\CarrelloController;
 use App\Http\Controllers\HomeController;
 
+use App\Http\Middleware\Carrello;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +24,18 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::view('/', 'welcome');
+
 
 Auth::routes();
 
-Route::resource('/', WelcomeController::class);
-Route::resource('ordine', RigaOrdiniController::class);
-Route::resource('carrello', CarrelloController::class);
+
+Route::middleware(Carrello::class)->group(function () {
+    Route::view('/', 'welcome');
+    Route::resource('/', WelcomeController::class);
+    Route::resource('ordine', RigaOrdiniController::class);
+    Route::resource('carrello', CarrelloController::class);
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
 
 
 // Rotte per amministratore
@@ -42,5 +48,4 @@ Route::middleware('can:administer')->prefix('admin')->group(function () {
 });
 
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
