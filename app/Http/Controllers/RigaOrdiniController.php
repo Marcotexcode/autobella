@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\OrdineTestata;
 use App\Models\OrdineRiga;
 
-
 class RigaOrdiniController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      *
@@ -26,36 +24,33 @@ class RigaOrdiniController extends Controller
             'quantità.required' => 'Inserire quantità!!'
         ]);
 
-        // Se l'utente e loggato
-        if (Auth::user()) {
-            
-            // Se in sessione c'è un carrello e user_id ed è null (whereNull) aggiungi alla colonna user_id l'id dell utente 
-            // Quando la sessione e piena e la trova con find()
-            if(session('idCarrello') && OrdineTestata::whereNull('user_id')) {
-                $idCarrello = session('idCarrello');
+        $idCarrello = session('idCarrello');
 
-                $idCarrelloUtente = OrdineTestata::where('id', $idCarrello)->update(['user_id' => Auth::user()->id]);
-                
-            // Se la sessione e vuota o non la trova l'utente autenticato non a un carrello crea un carrello autenticato 
-            } elseif (!session('idCarrello') /*|| !OrdineTestata::find(session('idCarrello'))*/) {
-                $idCarrello = session('idCarrello');
-                $idCarrello = OrdineTestata::firstOrCreate([ 'user_id' => Auth::user()->id, 'tipo' => 0])->id;
+        // Quando non sono loggato 
+        if (!Auth::user()) {
+            // Se la sessione e vuota o non la trova
+            if ($request->session()->missing('idCarrello') || !OrdineTestata::find(session('idCarrello'))) {
+                // Creo un carrello anonimo e aggiungo alla sessione l'id del carrello 
+                session()->put('idCarrello', OrdineTestata::create(['tipo' => 0])->id);
             }
-            // Se l'elemento non e presente nella sessione oppure non riesce a recuperare la riga carrello dal database
-        } elseif ($request->session()->missing('idCarrello') || !OrdineTestata::find(session('idCarrello'))) {
-            $idCarrello = session('idCarrello');
-            session()->put('idCarrello', OrdineTestata::create(['tipo' => 0])->id);
         } 
 
+        // Se la sessione e vuota e l'utente non ha non carrello creane uno 
+        if (!session('idCarrello')) {
+            $idCarrello = OrdineTestata::firstOrCreate([ 'user_id' => Auth::user()->id, 'tipo' => 0])->id;
+        }
+
         $idCarrello = session('idCarrello');
-       
+
         // Se la richiesta ricambio_id  e uguale alla colonna ricambio_id SE HA UGUALE 'ordine_testata_id' $idCarrello
         if (in_array($request->ricambio_id, OrdineRiga::where('ordine_testata_id', $idCarrello)->pluck('ricambio_id')->toArray())) {
+            
             // Dove ricambo_id e request->ricambio_id sono uguali e 'ordine_testata_id', $idCarrello sono uguali incrementare la quantità in base alla $request->quantità
             OrdineRiga::where('ricambio_id', $request->ricambio_id)->where('ordine_testata_id', $idCarrello)->increment('quantità', $request->quantità);
         } else {
             $ordine = new OrdineRiga;
-            $ordine->ordine_testata_id = $idCarrello;
+            // Se la sessione non è vuota allora aggiungi l'id che si trova nella sessione (carrello anonimo), se e vuota allora aggiungi l'id del (carrello utente)  
+            $ordine->ordine_testata_id = $idCarrello ? $idCarrello : OrdineTestata::where('user_id', Auth::user()->id)->value('id');
             $ordine->ricambio_id = $request->ricambio_id;
             $ordine->quantità = $request->quantità;
             $ordine->save();

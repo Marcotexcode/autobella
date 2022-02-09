@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\OrdineRiga;
+use App\Models\OrdineTestata;
 
 
 class CarrelloController extends Controller
@@ -15,9 +17,24 @@ class CarrelloController extends Controller
      */
     public function index()
     {
-        //$ordineRighe = OrdineRiga::all();
+        // Quando le condizioni sono tutte false 
+        $ordineRighe = [];
 
-        $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
+        // Se in sessione c'è un carrello 
+        if (session('idCarrello')) {
+
+            // Prendi le righe del carrello anonimo 
+            $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
+        
+        // Se sei autenticato 
+        } elseif(Auth::user()) {
+
+            // Prendi l'id dell' utente autenticato 
+            $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->value('id');
+
+            // Prendi le righe del carrello autenticato
+            $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
+        }
 
         return view('carrello.index', compact('ordineRighe'));
     }

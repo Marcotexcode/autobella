@@ -23,7 +23,6 @@ class WelcomeController extends Controller
      */
     public function index()
     {   
-
         $ricambi = Ricambio::query();
         
         $filtriRicerca = session('filtriRicerca');
@@ -53,10 +52,24 @@ class WelcomeController extends Controller
             });
         }
 
-        // Vedere se l'utente ha un carrello
-        $carrelli = OrdineTestata::where('id', session('idCarrello'))->get();
-
+        // Creare variabile per il totale delle righe a 0
         $righeOrdine = 0;
+
+        // Creare un array vuoto nel caso le condizioni sono false 
+        $carrelli= [];
+
+        // Se in sessione c'è un carrello 
+        if (session('idCarrello')) {
+            // Prendi il carrello anonimo 
+            $carrelli = OrdineTestata::where('id', session('idCarrello'))->get();
+        
+        // Se sei autenticato 
+        } elseif(Auth::user()) {
+
+            //Prendi il carrello dell' utente 
+            $carrelli = OrdineTestata::where('user_id', Auth::user()->id)->get();
+        }
+
 
         // Prendere tutti i record della colonna row_order_id 
         foreach ($carrelli as $carrello) { 
