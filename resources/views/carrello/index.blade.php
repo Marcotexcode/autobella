@@ -7,20 +7,20 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col">id</th>
                         <th scope="col">Nome Ricambio</th>
                         <th scope="col">Prezzo €</th>
                         <th scope="col">Quantità</th>
-                        <th scope="col">azioni</th>
+                        <th scope="col">Tot €</th>
+                        <th scope="col">Azioni</th>
                       </tr>
                     </thead>
                     <tbody>
                         @foreach ($ordineRighe as $ordineRiga)
                             <tr>
-                                <th scope="row">{{$ordineRiga->id}}</th>
                                 <td>{{$ordineRiga->ricambio->codice}}</td>
                                 <td>{{$ordineRiga->ricambio->prezzo}}</td>
                                 <td>{{$ordineRiga->quantità}}</td>
+                                <td>{{$ordineRiga->quantità * $ordineRiga->prezzo}}</td>
 
                                 <td>
                                     <form action="{{ route('carrello.destroy', $ordineRiga) }}" method="POST">
@@ -34,7 +34,10 @@
                         @endforeach
                     </tbody>
                 </table>
-                <button class="btn btn-primary">Conferma Ordine</button>
+                <h2> Totale: {{$sommaTotale}} €</h2> 
+
+                <a href="{{ Auth::user() ? url('indirizzo') : route('login')}}" class="btn btn-primary">Conferma Ordine</a>
+
             </div>
         </div>
     </div>

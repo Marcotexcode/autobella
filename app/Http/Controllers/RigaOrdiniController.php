@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\OrdineTestata;
 use App\Models\OrdineRiga;
+use App\Models\Ricambio;
+
 
 class RigaOrdiniController extends Controller
 {
@@ -41,6 +43,7 @@ class RigaOrdiniController extends Controller
         }
 
         $idCarrello = session('idCarrello');
+   
 
         // Se la richiesta ricambio_id  e uguale alla colonna ricambio_id SE HA UGUALE 'ordine_testata_id' $idCarrello
         if (in_array($request->ricambio_id, OrdineRiga::where('ordine_testata_id', $idCarrello)->pluck('ricambio_id')->toArray())) {
@@ -53,6 +56,7 @@ class RigaOrdiniController extends Controller
             $ordine->ordine_testata_id = $idCarrello ? $idCarrello : OrdineTestata::where('user_id', Auth::user()->id)->value('id');
             $ordine->ricambio_id = $request->ricambio_id;
             $ordine->quantità = $request->quantità;
+            $ordine->prezzo = Ricambio::where('id', $request->ricambio_id)->value('prezzo');
             $ordine->save();
         }
         return redirect('/');

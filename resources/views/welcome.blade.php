@@ -34,9 +34,8 @@
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                    @else 
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Login</a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
                         @endif
@@ -79,7 +78,7 @@
                         </form>
                         <div class="row">
                             <div class="col d-flex">
-                                <h3 class="m-4">Totale carrello: {{$righeOrdine}}</h3>
+                                <h3 class="m-4">Totale carrello: {{$totaleRigheOrdine}}</h3>
                                 <a href="{{ route('carrello.index') }}" class="btn my-4 btn-primary">Vai al carrello</a>
                             </div>
                         </div>
@@ -111,7 +110,6 @@
                                         <input class="form-input" placeholder="0" name="quantità" type="number">
                                     </div>
                                     <button type="submit" href="#" class="btn btn-primary my-4">Aggiungi Carrello</button>
-
                                     </div>
                                 </div>
                             </form>

@@ -34,4 +34,10 @@ class Ricambio extends Model
     {
         return $this->belongsToMany(Modello::class);
     }
+
+    public function ordine_righe()
+    {
+        return $this->hasMany(OrdineRiga::class);
+    }
+
 }

@@ -23,6 +23,7 @@ class WelcomeController extends Controller
      */
     public function index()
     {   
+
         $ricambi = Ricambio::query();
         
         $filtriRicerca = session('filtriRicerca');
@@ -53,7 +54,7 @@ class WelcomeController extends Controller
         }
 
         // Creare variabile per il totale delle righe a 0
-        $righeOrdine = 0;
+        $totaleRigheOrdine = 0;
 
         // Creare un array vuoto nel caso le condizioni sono false 
         $carrelli= [];
@@ -74,12 +75,12 @@ class WelcomeController extends Controller
         // Prendere tutti i record della colonna row_order_id 
         foreach ($carrelli as $carrello) { 
             // Sommare quantity 
-            $righeOrdine = $righeOrdine + $carrello->ordine_righe->sum('quantità');  
+            $totaleRigheOrdine = $totaleRigheOrdine + $carrello->ordine_righe->sum('quantità');  
         } 
         $idCarrello = session('idCarrello');
         $ricambi = $ricambi->get();
         
-        return view('welcome', compact('ricambi','righeOrdine','idCarrello'));
+        return view('welcome', compact('ricambi','totaleRigheOrdine','idCarrello'));
     }
 
     public function filtroRicerca(Request $request)

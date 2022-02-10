@@ -15,6 +15,7 @@ class OrdineRiga extends Model
         'ordine_testata_id',
         'ricambio_id',
         'quantità',
+        'prezzo',
     ];
 
     public function ricambio()

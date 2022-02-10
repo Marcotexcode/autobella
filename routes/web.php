@@ -10,6 +10,8 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\RigaOrdiniController;
 use App\Http\Controllers\CarrelloController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IndirizzoController;
+
 
 use App\Http\Middleware\Carrello;
 
@@ -28,7 +30,7 @@ use App\Http\Middleware\Carrello;
 
 Auth::routes();
 
-
+// middleweare carrello 
 Route::middleware(Carrello::class)->group(function () {
     Route::view('/', 'welcome');
     Route::resource('/', WelcomeController::class);
@@ -48,4 +50,14 @@ Route::middleware('can:administer')->prefix('admin')->group(function () {
 });
 
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');
+
+
+// Indirizzo conferma
+Route::view('/indirizzo', 'indirizzo.indirizzo')->name('indirizzoOrdine');
+Route::get('/indirizzo', [indirizzoController::class, 'index'])->name('indirizzo');
+Route::post('/indirizzo', [IndirizzoController::class, 'store'])->name('indirizzo.store');
+
+
+// Ordini efettuati
+Route::view('/ordini', 'ordini.index')->name('elencoOrdini');
 

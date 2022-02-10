@@ -52,8 +52,8 @@ class Carrello
 
 
            
-             // Cancello l'id del carrello che era anonimo dalla sessinoe 
-             session()->forget('idCarrello');
+            // Cancello l'id del carrello che era anonimo dalla sessinoe 
+            session()->forget('idCarrello');
 
             /* *********************************************************************************************************************************** */
 

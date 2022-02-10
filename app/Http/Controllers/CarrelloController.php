@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OrdineRiga;
 use App\Models\OrdineTestata;
+use App\Models\Ricambio;
+
 
 
 class CarrelloController extends Controller
@@ -19,13 +21,16 @@ class CarrelloController extends Controller
     {
         // Quando le condizioni sono tutte false 
         $ordineRighe = [];
-
+        $idCarrello = null;
         // Se in sessione c'è un carrello 
         if (session('idCarrello')) {
 
             // Prendi le righe del carrello anonimo 
             $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
-        
+            
+            // Prendi l'id del carrello anonimo 
+            $idCarrello = OrdineTestata::where('id', session('idCarrello'))->value('id');
+            
         // Se sei autenticato 
         } elseif(Auth::user()) {
 
@@ -36,7 +41,32 @@ class CarrelloController extends Controller
             $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
         }
 
-        return view('carrello.index', compact('ordineRighe'));
+        // PREZZO TOTALE ********************************************************************************************************
+
+        // Prendere la quantità di ogni riga e le metto in un array
+        $quantitaRiga =  OrdineRiga::where('ordine_testata_id',  $idCarrello)->pluck('quantità')->toArray();
+
+        // Prendere il prezzo di ogni riga e li metto in un array
+        $prezzoRicambio = OrdineRiga::where('ordine_testata_id',  $idCarrello)->pluck('prezzo')->toArray();
+
+        // Creo un array per inserire il prezzo del ricambio per la quantità
+        $totalePrezzoPerQuantità = [];
+
+        // Creo un ciclo per moltiplicare gli elementi dei due array
+        for ($i=0; $i < count($prezzoRicambio); $i++) { 
+
+            // Moltiplico gli elementi e il risultato l'ho aggiungo in un altro array
+            array_push($totalePrezzoPerQuantità, $prezzoRicambio[$i] * $quantitaRiga[$i]);
+        }
+
+        // Sommo il totale degli elementi
+        $sommaTotale = array_sum($totalePrezzoPerQuantità);
+
+        // Totale prezzo di un singolo ricambio 
+
+        //  ********************************************************************************************************
+        
+        return view('carrello.index', compact('ordineRighe', 'sommaTotale',  'totalePrezzoPerQuantità'));
     }
 
     /**
