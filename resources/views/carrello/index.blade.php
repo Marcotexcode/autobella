@@ -15,18 +15,18 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($ordineRighe as $ordineRiga)
+                        @foreach ($righeCarrello as $rigaCarrello)
                             <tr>
-                                <td>{{$ordineRiga->ricambio->codice}}</td>
-                                <td>{{$ordineRiga->ricambio->prezzo}}</td>
-                                <td>{{$ordineRiga->quantità}}</td>
-                                <td>{{$ordineRiga->quantità * $ordineRiga->prezzo}}</td>
+                                <td>{{$rigaCarrello->ricambio->codice}}</td>
+                                <td>{{$rigaCarrello->ricambio->prezzo}}</td>
+                                <td>{{$rigaCarrello->quantità}}</td>
+                                <td>{{$rigaCarrello->quantità * $rigaCarrello->prezzo}}</td>
 
                                 <td>
-                                    <form action="{{ route('carrello.destroy', $ordineRiga) }}" method="POST">
+                                    <form action="{{ route('carrello.destroy', $rigaCarrello) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="{{ route('carrello.edit', $ordineRiga->id) }}" class="btn btn-primary">Modifica</a>
+                                        <a href="{{ route('carrello.edit', $rigaCarrello->id) }}" class="btn btn-primary">Modifica</a>
                                         <button type="submit" class="btn btn-danger">Elimina</button>
                                     </form>
                                 </td>

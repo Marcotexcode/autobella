@@ -20,26 +20,33 @@ class CarrelloController extends Controller
     public function index()
     {
         // Quando le condizioni sono tutte false 
-        $ordineRighe = [];
-        $idCarrello = null;
+        // $ordineRighe = [];
+        // $idCarrello = null;
+
+        //***************************** FUNZIONE ***********************************/
+        $idCarrello = OrdineTestata::carrelloAnonimoAutenticato()->value('id');
+
+        //***************************** FUNZIONE ***********************************/
+        $righeCarrello = OrdineTestata::righeAnonimoAutenticato();
         // Se in sessione c'è un carrello 
-        if (session('idCarrello')) {
+        // if (session('idCarrello')) {
 
-            // Prendi le righe del carrello anonimo 
-            $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
+        //     // Prendi le righe del carrello anonimo 
+        //     $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
             
-            // Prendi l'id del carrello anonimo 
-            $idCarrello = OrdineTestata::where('id', session('idCarrello'))->value('id');
+        //     // Prendi l'id del carrello anonimo 
+        //     //$idCarrello = OrdineTestata::where('id', session('idCarrello'))->value('id');
             
-        // Se sei autenticato 
-        } elseif(Auth::user()) {
+        // // Se sei autenticato 
+        // } elseif(Auth::user()) {
 
-            // Prendi l'id dell' utente autenticato 
-            $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->value('id');
+        //     //$idCarrello = OrdineTestata::carrelloAutenticato();
+        //     // Prendi l'id dell' utente autenticato 
+        //   //  $idCarrello = OrdineTestata::carrelloAutenticato()->value('id');
 
-            // Prendi le righe del carrello autenticato
-            $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
-        }
+        //     // Prendi le righe del carrello autenticato
+        //     $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
+        // }
 
         // PREZZO TOTALE ********************************************************************************************************
 
@@ -62,11 +69,9 @@ class CarrelloController extends Controller
         // Sommo il totale degli elementi
         $sommaTotale = array_sum($totalePrezzoPerQuantità);
 
-        // Totale prezzo di un singolo ricambio 
-
         //  ********************************************************************************************************
         
-        return view('carrello.index', compact('ordineRighe', 'sommaTotale',  'totalePrezzoPerQuantità'));
+        return view('carrello.index', compact('righeCarrello', 'sommaTotale',  'totalePrezzoPerQuantità'));
     }
 
     /**
@@ -78,7 +83,7 @@ class CarrelloController extends Controller
     public function edit($id)
     {
         $ordineRiga = OrdineRiga::find($id);
-        //dd($ordineRiga);
+
         return view('carrello.edit', compact('ordineRiga'));
     }
 
@@ -109,6 +114,7 @@ class CarrelloController extends Controller
     public function destroy($id)
     {
         OrdineRiga::find($id)->delete();
+
         return redirect()->route('carrello.index');
     }
 }

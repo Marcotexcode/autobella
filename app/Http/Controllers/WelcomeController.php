@@ -58,17 +58,20 @@ class WelcomeController extends Controller
         // Creare un array vuoto nel caso le condizioni sono false 
         $carrelli= [];
 
-        // Se in sessione c'è un carrello 
-        if (session('idCarrello')) {
-            // Prendi il carrello anonimo 
-            $carrelli = OrdineTestata::where('id', session('idCarrello'))->get();
-        
-        // Se sei autenticato 
-        } elseif(Auth::user()) {
+        //***************************** FUNZIONE ***********************************/
+        $carrelli = OrdineTestata::carrelloAnonimoAutenticato()->get();
 
-            //Prendi il carrello(tipo0) dell' utente 
-            $carrelli = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->get();
-        }
+        // // Se in sessione c'è un carrello 
+        // if (session('idCarrello')) {
+        //     // Prendi il carrello anonimo 
+        //     $carrelli = OrdineTestata::where('id', session('idCarrello'))->get();
+        
+        // // Se sei autenticato 
+        // } elseif(Auth::user()) {
+
+        //     //Prendi il carrello(tipo0) dell' utente 
+        //     $carrelli = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->get();
+        // }
 
 
         // Prendere tutti i record della colonna row_order_id 

@@ -13,6 +13,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndirizzoController;
 use App\Http\Controllers\OrdiniController;
 use App\Mail\OrdineInviato;
+use App\Mail\OrdineSpedito;
 
 
 
@@ -76,6 +77,10 @@ Route::view('/ordine_spedito', 'ordineConfermato.index');
 
 
 // Template Mail
-Route::get('/email', function () {
+Route::get('/email_inviato', function () {
     return new OrdineInviato();
+});
+
+Route::get('/email_spedito', function () {
+    return new OrdineSpedito();
 });
