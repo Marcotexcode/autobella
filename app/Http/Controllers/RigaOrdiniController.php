@@ -37,7 +37,7 @@ class RigaOrdiniController extends Controller
             }
         } 
 
-        // Se la sessione e vuota e l'utente non ha non carrello creane uno 
+        // Se la sessione e vuota e l'utente non ha un carrello(tipo0) creane uno 
         if (!session('idCarrello')) {
             $idCarrello = OrdineTestata::firstOrCreate([ 'user_id' => Auth::user()->id, 'tipo' => 0])->id;
         }
@@ -52,8 +52,8 @@ class RigaOrdiniController extends Controller
             OrdineRiga::where('ricambio_id', $request->ricambio_id)->where('ordine_testata_id', $idCarrello)->increment('quantità', $request->quantità);
         } else {
             $ordine = new OrdineRiga;
-            // Se la sessione non è vuota allora aggiungi l'id che si trova nella sessione (carrello anonimo), se e vuota allora aggiungi l'id del (carrello utente)  
-            $ordine->ordine_testata_id = $idCarrello ? $idCarrello : OrdineTestata::where('user_id', Auth::user()->id)->value('id');
+            // Se la sessione non è vuota allora aggiungi l'id che si trova nella sessione (carrello(tipo0) anonimo), se e vuota allora aggiungi l'id del (carrello(tipo0) utente)  
+            $ordine->ordine_testata_id = $idCarrello ? $idCarrello : OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->value('id');
             $ordine->ricambio_id = $request->ricambio_id;
             $ordine->quantità = $request->quantità;
             $ordine->prezzo = Ricambio::where('id', $request->ricambio_id)->value('prezzo');

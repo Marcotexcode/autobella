@@ -21,7 +21,8 @@
                       <input type="text" name="telefono" class="form-control" id="numero-telefono">
                     </div>
                     <h2>Totale: {{$sommaTotale}} €</h2>
-                    <button type="submit" class="btn btn-primary">Spedisci a questo indirizzo</button>
+
+                        <button type="submit" class="btn btn-primary">Spedisci a questo indirizzo</button>
                 </form>
             </div>
         </div>

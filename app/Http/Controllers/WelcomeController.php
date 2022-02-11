@@ -27,7 +27,6 @@ class WelcomeController extends Controller
         $ricambi = Ricambio::query();
         
         $filtriRicerca = session('filtriRicerca');
-
         $prova = Ricambio::all();       
        
         // Filtri Search
@@ -67,8 +66,8 @@ class WelcomeController extends Controller
         // Se sei autenticato 
         } elseif(Auth::user()) {
 
-            //Prendi il carrello dell' utente 
-            $carrelli = OrdineTestata::where('user_id', Auth::user()->id)->get();
+            //Prendi il carrello(tipo0) dell' utente 
+            $carrelli = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->get();
         }
 
 

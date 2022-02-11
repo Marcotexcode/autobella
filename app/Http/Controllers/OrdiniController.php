@@ -14,26 +14,18 @@ class OrdiniController extends Controller
 {
     public function index()
     {
-       $elencoOrdini = OrdineTestata::all();
-
+        // Prendi tutti gli ordini(tipo1)
+        $elencoOrdini = OrdineTestata::where('tipo', 1)->get();
 
         return view('ordini.index', compact('elencoOrdini'));
     }
 
     public function update(Request $request, $id)
     {
-       // dd($id);
+        // modifica l'ordine(tipo1) in ordine spedito(tipo2)
         $ordineRiga = OrdineTestata::find($id)->update(['tipo' => 2]);
+
         return redirect()->route('ordini.index');
     }
 
-    // public function statoCarrello(Request $request, $id)
-    // {
-    //     dd($id);
-    //     $carrello->update();
-    //     $tipoOrdine = new OrdineTestata;
-
-
-    //     return redirect()->route('ordini.index');
-    // }
 }

@@ -25,21 +25,21 @@
                     </thead>
                     <tbody>
                         @foreach ($ricambi as $ricambio)
-                        <tr>
-                            <th>{{$ricambio->id}}</th>
-                            <td>{{$ricambio->codice}}</td>
-                            <td>{{$ricambio->categoria->descrizione}}</td>
-                            <td>{{$ricambio->fornitore->ragione_sociale}}</td>
-                            <td>{{$ricambio->prezzo}}</td>
-                            <td>
-                                <form action="{{ route('ricambi.destroy', $ricambio->id)}}" method="POST">
-                                    <a class="btn btn-primary" href="{{ route('ricambi.edit', $ricambio->id) }}">Modifica</a>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"  class="btn btn-danger">Elimina</button>
-                                </form>    
-                            </td>
-                        </tr>
+                            <tr>
+                                <th>{{$ricambio->id}}</th>
+                                <td>{{$ricambio->codice}}</td>
+                                <td>{{$ricambio->categoria->descrizione}}</td>
+                                <td>{{$ricambio->fornitore->ragione_sociale}}</td>
+                                <td>{{$ricambio->prezzo}}</td>
+                                <td>
+                                    <form action="{{ route('ricambi.destroy', $ricambio->id)}}" method="POST">
+                                        <a class="btn btn-primary" href="{{ route('ricambi.edit', $ricambio->id) }}">Modifica</a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"  class="btn btn-danger">Elimina</button>
+                                    </form>    
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

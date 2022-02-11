@@ -15,6 +15,7 @@ use App\Http\Controllers\OrdiniController;
 
 
 
+
 use App\Http\Middleware\Carrello;
 
 /*
@@ -56,17 +57,21 @@ Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtr
 
 // Indirizzo conferma
 Route::view('/indirizzo', 'indirizzo.indirizzo')->name('indirizzoOrdine');
+Route::view('/ordine_effettuato', 'indirizzo.spedito')->name('speditoOrdine');
+
 Route::get('/indirizzo', [indirizzoController::class, 'index'])->name('indirizzo');
 Route::post('/indirizzo', [IndirizzoController::class, 'store'])->name('indirizzo.store');
 
 
-// Ordini efettuati
+// Ordini effettuati
 Route::view('/ordini', 'ordini.index')->name('elencoOrdini');
 Route::get('/ordini', [OrdiniController::class, 'index'])->name('ordini');
 //Route::post('/ordini', [OrdiniController::class, 'statoCarrello'])->name('statoCarrello');
 Route::resource('ordini', OrdiniController::class);
 
 
-//Route::put('/ordini/{id}', [OrdiniController::class, 'statoCarrello'])->name('statoCarrello');
+// Ordine spedito
+Route::view('/ordine_spedito', 'ordineConfermato.index');
+//Route::post('/ordine_spedito', [OrdiniController::class, 'ordineSpedito'])->name('ordineSpedito');
 
 

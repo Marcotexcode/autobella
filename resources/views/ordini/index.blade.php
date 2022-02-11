@@ -26,11 +26,10 @@
                                     <td>{{ $elencoOrdine->indirizzo }}</td>
                                     <td>{{ $elencoOrdine->telefono }}</td>
                                     <td>
-                                        {{-- <button class="btn btn-primary">Dettaglio Ordine</button> --}}
                                         <form action="{{route('ordini.update', $elencoOrdine->id)}}" method="POST">
                                             @method('PUT') 
                                             @csrf
-                                            <button class="btn btn-{{$elencoOrdine->tipo == 0 ?  'danger' : 'success'}}">Ordine Pronto</button>
+                                            <button class="btn btn-success">Ordine Pronto</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -42,3 +41,5 @@
         </div>
     </div>
 @endsection
+
+{{-- btn btn-{{$elencoOrdine->tipo == 0 ?  'danger' : 'success'}} --}}

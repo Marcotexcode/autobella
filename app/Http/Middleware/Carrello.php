@@ -50,7 +50,6 @@ class Carrello
             // Prendo il carrello in sessione e aggiungo nell' user_id, l'id dell utente autenticato
             OrdineTestata::where('id', session('idCarrello'))->update(['user_id' => Auth::user()->id]);
 
-
            
             // Cancello l'id del carrello che era anonimo dalla sessinoe 
             session()->forget('idCarrello');

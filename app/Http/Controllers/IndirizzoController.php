@@ -14,10 +14,10 @@ class IndirizzoController extends Controller
     public function index()
     {
 
-        // Prendi l'id dell' utente autenticato 
-        $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->value('id');
+        // Prendi l'id dell'carrello(tipo0) dell' utente autenticato 
+        $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->value('id');
 
-        // Prendi le righe del carrello autenticato
+        // Prendi le righe del carrello(tipo0) autenticato
         $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
 
         // Prendere la quantità di ogni riga e le metto in un array
@@ -39,7 +39,7 @@ class IndirizzoController extends Controller
         // Sommo il totale degli elementi
         $sommaTotale = array_sum($totalePrezzoPerQuantità);
 
-        return view('indirizzo.indirizzo', compact('sommaTotale'));
+        return view('indirizzo.indirizzo', compact('sommaTotale', 'idCarrello' ));
     }
 
     public function store(Request $request)
@@ -47,10 +47,11 @@ class IndirizzoController extends Controller
 
         OrdineTestata::where('user_id', Auth::user()->id)->update([
             'indirizzo' => $request->indirizzo,
-            'telefono' => $request->telefono
+            'telefono' => $request->telefono,
+            'tipo' => 1
+
         ]);
 
-
-        return redirect()->route('indirizzo');
+        return redirect()->route('speditoOrdine');
     }
 }

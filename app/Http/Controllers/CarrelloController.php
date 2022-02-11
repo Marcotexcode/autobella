@@ -35,7 +35,7 @@ class CarrelloController extends Controller
         } elseif(Auth::user()) {
 
             // Prendi l'id dell' utente autenticato 
-            $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->value('id');
+            $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->value('id');
 
             // Prendi le righe del carrello autenticato
             $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
