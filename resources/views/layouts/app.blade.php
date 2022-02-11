@@ -42,7 +42,7 @@
                     <a class="navbar-brand" href="{{ route('modelli.index') }}">
                         Modelli
                     </a>
-                    <a class="navbar-brand" href="{{ route('elencoOrdini') }}">
+                    <a class="navbar-brand" href="{{ url('ordini') }}">
                         Ordini
                     </a>
                  @endcan

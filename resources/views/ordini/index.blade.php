@@ -11,24 +11,30 @@
                     <table class="table">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Data</th>
                             <th scope="col">Indirizzo</th>
+                            <th scope="col">Telefono</th>
                             <th scope="col">Azioni</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Marco</td>
-                            <td>29/03/2020</td>
-                            <td>Pineto</td>
-                            <td>
-                                <button class="btn btn-primary">Dettaglio Ordine</button>
-                                <button class="btn btn-primary">Ordine Pronto</button>
-                            </td>
-                          </tr>
+                            @foreach ($elencoOrdini as $elencoOrdine)
+                                <tr>
+                                    <td>{{ $elencoOrdine->utente->name }}</td>
+                                    <td>{{ $elencoOrdine->created_at }}</td>
+                                    <td>{{ $elencoOrdine->indirizzo }}</td>
+                                    <td>{{ $elencoOrdine->telefono }}</td>
+                                    <td>
+                                        {{-- <button class="btn btn-primary">Dettaglio Ordine</button> --}}
+                                        <form action="{{route('ordini.update', $elencoOrdine->id)}}" method="POST">
+                                            @method('PUT') 
+                                            @csrf
+                                            <button class="btn btn-{{$elencoOrdine->tipo == 0 ?  'danger' : 'success'}}">Ordine Pronto</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

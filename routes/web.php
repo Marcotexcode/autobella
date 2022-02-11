@@ -11,6 +11,8 @@ use App\Http\Controllers\RigaOrdiniController;
 use App\Http\Controllers\CarrelloController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndirizzoController;
+use App\Http\Controllers\OrdiniController;
+
 
 
 use App\Http\Middleware\Carrello;
@@ -60,4 +62,11 @@ Route::post('/indirizzo', [IndirizzoController::class, 'store'])->name('indirizz
 
 // Ordini efettuati
 Route::view('/ordini', 'ordini.index')->name('elencoOrdini');
+Route::get('/ordini', [OrdiniController::class, 'index'])->name('ordini');
+//Route::post('/ordini', [OrdiniController::class, 'statoCarrello'])->name('statoCarrello');
+Route::resource('ordini', OrdiniController::class);
+
+
+//Route::put('/ordini/{id}', [OrdiniController::class, 'statoCarrello'])->name('statoCarrello');
+
 

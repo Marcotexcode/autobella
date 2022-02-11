@@ -22,4 +22,10 @@ class OrdineTestata extends Model
     {
         return $this->hasMany(OrdineRiga::class);
     }
+
+    public function utente()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }
