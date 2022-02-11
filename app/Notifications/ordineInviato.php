@@ -41,9 +41,9 @@ class ordineInviato extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->line('Il tuo ordine è stato inviato')
+            //->action('Notification Action', url('/'))
+            ->line('Le faremo sapere quando verrà spedito tramite mail');
     }
 
     /**
