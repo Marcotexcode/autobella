@@ -20,24 +20,35 @@ class OrdineTestata extends Model
         'telefono'
     ];
 
+    // Relazione
     public function ordine_righe()
     {
         return $this->hasMany(OrdineRiga::class);
     }
 
+    // Relazione
     public function utente()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    
-    // public static function carrelloAutenticato()
-    // {
-    //     $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0);
 
-    //     return $idCarrello;
-    // }
+    // Carrello Anonimo
+    public static function carrelloAnonimo()
+    {
+        $carrello = OrdineTestata::where('id', session('idCarrello'));
 
-    // passa il carrello o autenticato o anonimo
+        return $carrello;
+    }
+
+    // Carrello Utnte
+    public static function carrelloUtente()
+    {
+        $carrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0);
+
+        return $carrello;
+    }
+
+    // Passa il carrello o autenticato o anonimo
     public static function carrelloAnonimoAutenticato()
     {
         $idCarrello = null;
@@ -54,25 +65,5 @@ class OrdineTestata extends Model
 
         return $idCarrello;
     } 
-
-    // righe carrello anonimo o autenticato
-    public static function righeAnonimoAutenticato()
-    {
-        $righeCarrello = [];
-        
-        if (session('idCarrello')) {
-
-            $righeCarrello = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
-            
-            
-        } elseif(Auth::user()) {
-
-            $idCarrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->value('id');
-
-            $righeCarrello = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
-        }
-
-        return $righeCarrello;
-    }
 
 }

@@ -23,11 +23,12 @@ class WelcomeController extends Controller
      */
     public function index()
     {   
-
         $ricambi = Ricambio::query();
         
         $filtriRicerca = session('filtriRicerca');
-        $prova = Ricambio::all();       
+        $modelli = Modello::all();  
+        $marche = Marca::all();       
+
        
         // Filtri Search
         if(isset($filtriRicerca['nomeRicambio'])) {
@@ -58,21 +59,19 @@ class WelcomeController extends Controller
         // Creare un array vuoto nel caso le condizioni sono false 
         $carrelli= [];
 
-        //***************************** FUNZIONE ***********************************/
-        $carrelli = OrdineTestata::carrelloAnonimoAutenticato()->get();
+        // Se in sessione c'è un carrello 
+        if (session('idCarrello')) {
 
-        // // Se in sessione c'è un carrello 
-        // if (session('idCarrello')) {
-        //     // Prendi il carrello anonimo 
-        //     $carrelli = OrdineTestata::where('id', session('idCarrello'))->get();
+            // FUNZIONE Prendi il carrello anonimo 
+            $carrelli = OrdineTestata::carrelloAnonimo()->get();
         
-        // // Se sei autenticato 
-        // } elseif(Auth::user()) {
+        // Se sei autenticato 
+        } elseif(Auth::user()) {
 
-        //     //Prendi il carrello(tipo0) dell' utente 
-        //     $carrelli = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0)->get();
-        // }
+            // FUNZIONE Prendi il carrello autenticato 
+            $carrelli = OrdineTestata::carrelloUtente()->get();
 
+        }
 
         // Prendere tutti i record della colonna row_order_id 
         foreach ($carrelli as $carrello) { 
@@ -82,7 +81,7 @@ class WelcomeController extends Controller
         $idCarrello = session('idCarrello');
         $ricambi = $ricambi->get();
         
-        return view('welcome', compact('ricambi','totaleRigheOrdine','idCarrello'));
+        return view('welcome', compact('ricambi','totaleRigheOrdine','idCarrello', 'modelli', 'marche'));
     }
 
     public function filtroRicerca(Request $request)

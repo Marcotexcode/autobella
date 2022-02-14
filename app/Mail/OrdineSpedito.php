@@ -2,10 +2,12 @@
 
 namespace App\Mail;
 
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+
 
 class OrdineSpedito extends Mailable
 {
@@ -13,7 +15,8 @@ class OrdineSpedito extends Mailable
 
     /**
      * Create a new message instance.
-     *
+     * @param  \App\Models\OrdineRiga  $riga
+     * 
      * @return void
      */
     public function __construct()
@@ -28,6 +31,7 @@ class OrdineSpedito extends Mailable
      */
     public function build()
     {
+
         return $this->markdown('emails.mail.ordine.spedito');
     }
 }

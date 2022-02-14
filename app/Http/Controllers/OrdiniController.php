@@ -33,7 +33,7 @@ class OrdiniController extends Controller
 
         Mail::to($user)->send(new OrdineSpedito);
 
-        return redirect()->route('ordini.index');
+        return redirect()->route('ordini');
     }
 
 }

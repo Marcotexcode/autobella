@@ -19,58 +19,15 @@ class CarrelloController extends Controller
      */
     public function index()
     {
-        // Quando le condizioni sono tutte false 
-        // $ordineRighe = [];
-        // $idCarrello = null;
-
-        //***************************** FUNZIONE ***********************************/
-        $idCarrello = OrdineTestata::carrelloAnonimoAutenticato()->value('id');
-
-        //***************************** FUNZIONE ***********************************/
-        $righeCarrello = OrdineTestata::righeAnonimoAutenticato();
-        // Se in sessione c'è un carrello 
-        // if (session('idCarrello')) {
-
-        //     // Prendi le righe del carrello anonimo 
-        //     $ordineRighe = OrdineRiga::where('ordine_testata_id', session('idCarrello'))->get();
-            
-        //     // Prendi l'id del carrello anonimo 
-        //     //$idCarrello = OrdineTestata::where('id', session('idCarrello'))->value('id');
-            
-        // // Se sei autenticato 
-        // } elseif(Auth::user()) {
-
-        //     //$idCarrello = OrdineTestata::carrelloAutenticato();
-        //     // Prendi l'id dell' utente autenticato 
-        //   //  $idCarrello = OrdineTestata::carrelloAutenticato()->value('id');
-
-        //     // Prendi le righe del carrello autenticato
-        //     $ordineRighe = OrdineRiga::where('ordine_testata_id', $idCarrello)->get();
-        // }
-
-        // PREZZO TOTALE ********************************************************************************************************
-
-        // Prendere la quantità di ogni riga e le metto in un array
-        $quantitaRiga =  OrdineRiga::where('ordine_testata_id',  $idCarrello)->pluck('quantità')->toArray();
-
-        // Prendere il prezzo di ogni riga e li metto in un array
-        $prezzoRicambio = OrdineRiga::where('ordine_testata_id',  $idCarrello)->pluck('prezzo')->toArray();
-
-        // Creo un array per inserire il prezzo del ricambio per la quantità
-        $totalePrezzoPerQuantità = [];
-
-        // Creo un ciclo per moltiplicare gli elementi dei due array
-        for ($i=0; $i < count($prezzoRicambio); $i++) { 
-
-            // Moltiplico gli elementi e il risultato l'ho aggiungo in un altro array
-            array_push($totalePrezzoPerQuantità, $prezzoRicambio[$i] * $quantitaRiga[$i]);
-        }
+        // FUNZIONE
+        $righeCarrello = OrdineRiga::righeAnonimoAutenticato();
+        
+        // FUNZIONE 
+        $totalePrezzoPerQuantità = OrdineRiga::totaleRiga();
 
         // Sommo il totale degli elementi
         $sommaTotale = array_sum($totalePrezzoPerQuantità);
 
-        //  ********************************************************************************************************
-        
         return view('carrello.index', compact('righeCarrello', 'sommaTotale',  'totalePrezzoPerQuantità'));
     }
 

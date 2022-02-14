@@ -57,7 +57,7 @@ Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtr
 
 
 // Indirizzo conferma
-Route::view('/indirizzo', 'indirizzo.indirizzo')->name('indirizzoOrdine');
+Route::view('/indirizzo', 'indirizzo.indirizzo');
 Route::view('/ordine_effettuato', 'indirizzo.spedito')->name('speditoOrdine');
 
 Route::get('/indirizzo', [indirizzoController::class, 'index'])->name('indirizzo');
@@ -65,15 +65,12 @@ Route::post('/indirizzo', [IndirizzoController::class, 'store'])->name('indirizz
 
 
 // Ordini effettuati
-Route::view('/ordini', 'ordini.index')->name('elencoOrdini');
+Route::view('/ordini', 'ordini.index');
 Route::get('/ordini', [OrdiniController::class, 'index'])->name('ordini');
-//Route::post('/ordini', [OrdiniController::class, 'statoCarrello'])->name('statoCarrello');
-Route::resource('ordini', OrdiniController::class);
-
+Route::put('ordini/{id}', [OrdiniController::class, 'update'])->name('ordini.update');
 
 // Ordine spedito
 Route::view('/ordine_spedito', 'ordineConfermato.index');
-//Route::post('/ordine_spedito', [OrdiniController::class, 'ordineSpedito'])->name('ordineSpedito');
 
 
 // Template Mail

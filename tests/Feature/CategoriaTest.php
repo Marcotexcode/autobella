@@ -24,11 +24,11 @@ class CategoriaTest extends TestCase
 
         // Aggiungo un record 
         $response = $this->actingAs($user)->post(route('categorie.store'), [
-            'descrizione' => 'descrizione',
+            'descrizione' => 'pippo',
         ]);
 
         $this->assertDatabaseHas('categorie', [
-            'descrizione' => 'descrizione',
+            'descrizione' => 'pippo',
         ]);
 
         //Controlla se viene ridirezionato in: 

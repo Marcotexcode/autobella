@@ -29,20 +29,80 @@
         </style>
     </head>
     <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else 
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Login</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Autobella
+                </a>
+                 @can('administer')
+                    <a class="navbar-brand" href="{{ route('fornitori.index') }}">
+                        Fornitori
+                    </a>
+                    <a class="navbar-brand" href="{{ route('categorie.index') }}">
+                        Categorie
+                    </a>
+                    <a class="navbar-brand" href="{{ route('ricambi.index') }}">
+                        Ricambi
+                    </a>
+                    <a class="navbar-brand" href="{{ route('marche.index') }}">
+                        Marche
+                    </a>
+                    <a class="navbar-brand" href="{{ route('modelli.index') }}">
+                        Modelli
+                    </a>
+                    <a class="navbar-brand" href="{{ url('ordini') }}">
+                        Ordini
+                    </a>
+                 @endcan
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
+                        
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             <div class="container">
                 <div class="row">
                     <div class="col my-5">
@@ -59,20 +119,31 @@
                             @csrf
                             <h2>Cerca ricambio</h2>
                             <div class="form-group">
-                              <label for="exampleInputEmail1">Nome</label>
-                              <input type="text" name="nomeRicambio" class="form-control my-3" id="exampleInputEmail1">
+                              <input type="text" name="nomeRicambio" class="form-control my-3" placeholder="Nome Ricambio" id="exampleInputEmail1">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Marca Auto</label>
-                                <input type="text" name="marcaAuto" class="form-control my-3" id="exampleInputEmail1">
+                                <select name="marcaAuto" class="form-select my-3" aria-label="Default select example">
+                                    <option value="" selected>Scegli marca</option>
+                                    @foreach ($marche as $marca)
+                                        <option value="{{$marca->nome}}">{{$marca->nome}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Modello Auto</label>
-                                <input type="text" name="modelloAuto" class="form-control my-3" id="exampleInputEmail1">
+                                <select name="modelloAuto" class="form-select my-3" aria-label="Default select example">
+                                    <option value="" selected>Scegli il modello</option>
+                                    @foreach ($modelli as $modello)
+                                        <option value="{{$modello->nome}}">{{$modello->nome}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Anno</label>
-                                <input type="number" name="annoAuto" class="form-control my-3" id="exampleInputEmail1">
+                                <select name="annoAuto" class="form-select my-3" aria-label="Default select example">
+                                    <option value="" selected>Scegli l'anno</option>
+                                    @foreach ($modelli as $modello)
+                                        <option value="{{$modello->anno_commercializzazione}}">{{$modello->anno_commercializzazione}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Trova</button>
                         </form>
@@ -84,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="row">
                     <div  class="col d-flex  justify-content-between flex-wrap">
                         @foreach ($ricambi as $ricambio)
@@ -92,19 +163,21 @@
                                 @csrf
                                 <input type="hidden" name="ricambio_id" value="{{$ricambio->id}}">
                                 <div class="card my-3" style="height: 600px; width: 18rem;">
-                                    <img class="card-img-top" style="height: 300px;" src="{{asset('storage/' . $ricambio->cover)}}" alt="Card image cap">
+                                    <div class="p-5">
+                                        <img class="card-img-top" style="height: 200px;" src="{{asset('storage/' . $ricambio->cover)}}" alt="Card image cap">
+                                    </div>
                                     <div class="card-body">
-                                    <h5 class="card-title"><strong>{{$ricambio->codice}}</strong></h5>
-                                    <h6 class="card-title"><strong>Fornitore: </strong>{{$ricambio->fornitore->ragione_sociale}}</h6>
-                                    <h6 class="card-title"><strong>Prezzo: </strong>{{$ricambio->prezzo}} €</h6>
-                                    <h6 class="card-title"><strong>Compatibile con: </strong>  
-                                        @foreach ($ricambio->modelli as $item)
-                                        {{$item->marca->nome}}-{{$item->nome}}{{-- 
-                                            --}}@if (!$loop->last){{--
-                                            --}},
-                                            @endif
-                                        @endforeach
-                                    </h6>
+                                        <h5 class="card-title"><strong>{{$ricambio->codice}}</strong></h5>
+                                        <h6 class="card-title"><strong>Fornitore: </strong>{{$ricambio->fornitore->ragione_sociale}}</h6>
+                                        <h6 class="card-title"><strong>Prezzo: </strong>{{$ricambio->prezzo}} €</h6>
+                                        <h6 class="card-title"><strong>Compatibile con: </strong>  
+                                            @foreach ($ricambio->modelli as $item)
+                                            {{$item->marca->nome}}-{{$item->nome}}{{-- 
+                                                --}}@if (!$loop->last){{--
+                                                --}},
+                                                @endif
+                                            @endforeach
+                                        </h6>
                                     <div class="form-check">
                                         <label class="form-check-label pt-3 text-center" for=""><strong>Quantità</strong></label>
                                         <input class="form-input" placeholder="0" name="quantità" type="number">

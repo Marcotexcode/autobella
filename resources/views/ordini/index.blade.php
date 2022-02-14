@@ -27,7 +27,7 @@
                                     <td>{{ $elencoOrdine->telefono }}</td>
                                     <td>
                                         <form action="{{route('ordini.update', $elencoOrdine->id)}}" method="POST">
-                                            @method('PUT') 
+                                            @method('PUT')  
                                             @csrf
                                             <button class="btn btn-success">Ordine Pronto</button>
                                         </form>
