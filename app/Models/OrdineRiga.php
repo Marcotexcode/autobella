@@ -25,6 +25,11 @@ class OrdineRiga extends Model
         return $this->belongsTo(Ricambio::class);
     }
 
+    public function ordine_testata()
+    {
+        return $this->belongsTo(OrdineTestata::class);
+    }
+
     // Righe carrello anonimo o autenticato
     public static function righeAnonimoAutenticato()
     {
