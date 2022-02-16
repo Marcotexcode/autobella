@@ -19,28 +19,47 @@ use App\Models\Fornitore;
 
 class OrdineRigaTest extends TestCase
 {
-   use RefreshDatabase;
+    //use RefreshDatabase;
 
     public function test_aggiunta_ordine_al_carrello_anonimo()
     {
         // Creare un record ricambio per poter creare un record ordine
         $ricambio = Ricambio::factory()
-            ->count(1)
             ->for(Categoria::factory())
             ->for(Fornitore::factory())
             ->create();
         
 
+        // Creare un carrello anonimo 
+        $carrelloAnonimo = OrdineTestata::factory()->create([
+            'user_id' => null,
+            'tipo' => 0 // Stato carrello
+        ]);
+
+        // Agiungo il carrello anonimo in sessione 
+        session()->put('idCarrello', $carrelloAnonimo->id);
+
+        // Carrello anonimo in sessione
+        $carr = session('idCarrello');
+
+        
         // Aggiungo un ordine al carrello
         $response = $this->post(route('ordine.store'), [
-            'ricambio_id' =>  1,
+            'ordine_testata_id' => $carr,
+            'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
         ]);
 
+        // ************ PRIMO ASSERT **************
+        // Controllo se in sessione c'è il carrello anonimo 
+        $response->assertSessionHas('idCarrello', $carrelloAnonimo->id);
+
+
+        // ************ SECONDO ASSERT **************
         // Controllo se l'ordine e stato aggiunto 
         $this->assertDatabaseHas('ordine_righe', [
-            'ordine_testata_id' => 1,
-            'ricambio_id' =>  1,
+            'ordine_testata_id' => $carr,
+            'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
             'prezzo' =>  50,
         ]);
@@ -53,26 +72,46 @@ class OrdineRigaTest extends TestCase
 
         // Creare un record ricambio per poter creare un record ordine
         $ricambio = Ricambio::factory()
-            ->count(1)
             ->for(Categoria::factory())
             ->for(Fornitore::factory([
                 'p_iva' => '3417',
             ]))
             ->create();
         
+        // Creare un carrello Autenticato 
+        $carrelloAutenticato = OrdineTestata::factory()->create([
+            'user_id' => $user->id,
+            'tipo' => 0 // Stato carrello
+        ]);
+
+        // Agiungo il carrello Autenticato in sessione 
+        session()->put('idCarrello', $carrelloAutenticato->id);
+
+        // Carrello Autenticato in sessione
+        $carr = session('idCarrello');
 
         // Aggiungo un ordine al carrello
-        $response = $this->actingAs($user)->post(route('ordine.store'), [
-            'ricambio_id' =>  2,
+        $response = $this->post(route('ordine.store'), [
+            'ordine_testata_id' => $carr,
+            'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
         ]);
 
+
+
+        // ************ PRIMO ASSERT **************
+
+        // Controllo se in sessione c'è il carrello Autenticato 
+        $response->assertSessionHas('idCarrello', $carrelloAutenticato->id);
+
+
+        // ************ SECONDO ASSERT **************
+        
         // Controllo se l'ordine e stato aggiunto 
         $this->assertDatabaseHas('ordine_righe', [
-            'ordine_testata_id' => 2,
-            'ricambio_id' =>  2,
+            'ordine_testata_id' => $carr,
+            'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
-            'prezzo' =>  50,
         ]);
     }
 }
