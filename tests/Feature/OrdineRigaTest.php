@@ -15,8 +15,6 @@ use App\Models\Categoria;
 use App\Models\Fornitore;
 
 
-
-
 class OrdineRigaTest extends TestCase
 {
     //use RefreshDatabase;
@@ -29,40 +27,40 @@ class OrdineRigaTest extends TestCase
             ->for(Fornitore::factory())
             ->create();
         
-
-        // Creare un carrello anonimo 
-        $carrelloAnonimo = OrdineTestata::factory()->create([
-            'user_id' => null,
-            'tipo' => 0 // Stato carrello
-        ]);
-
-        // Agiungo il carrello anonimo in sessione 
-        session()->put('idCarrello', $carrelloAnonimo->id);
-
-        // Carrello anonimo in sessione
-        $carr = session('idCarrello');
-
-        
         // Aggiungo un ordine al carrello
         $response = $this->post(route('ordine.store'), [
-            'ordine_testata_id' => $carr,
             'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
         ]);
 
+        
+        // Prendo l'id del carrello anonimo creato dall' ordine che ho inserito  
+        $idCarrelloAnonimo = OrdineRiga::where('ricambio_id', $ricambio->id)->value('ordine_testata_id');
+
+
         // ************ PRIMO ASSERT **************
-        // Controllo se in sessione c'è il carrello anonimo 
-        $response->assertSessionHas('idCarrello', $carrelloAnonimo->id);
+        // Controllo se in sessione c'è l'id del carrello creato dall' ordine che ho inserito 
+        $response->assertSessionHas('idCarrello', $idCarrelloAnonimo);
 
 
         // ************ SECONDO ASSERT **************
+        // Controllo se l'ordine ha creato un carrello (tipo = 0) anonimo (null)
+        $this->assertDatabaseHas('ordine_testate', [
+            'id' =>  $idCarrelloAnonimo,
+            'user_id' =>  null,
+            'tipo' =>  0,
+        ]);
+
+        
+        // ************ SECONDO ASSERT **************
         // Controllo se l'ordine e stato aggiunto 
         $this->assertDatabaseHas('ordine_righe', [
-            'ordine_testata_id' => $carr,
+            'ordine_testata_id' => $idCarrelloAnonimo,
             'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
             'prezzo' =>  50,
         ]);
+        
     }
 
     public function test_aggiunta_ordine_al_carrello_autenticato()
@@ -77,41 +75,33 @@ class OrdineRigaTest extends TestCase
                 'p_iva' => '3417',
             ]))
             ->create();
-        
-        // Creare un carrello Autenticato 
-        $carrelloAutenticato = OrdineTestata::factory()->create([
-            'user_id' => $user->id,
-            'tipo' => 0 // Stato carrello
-        ]);
-
-        // Agiungo il carrello Autenticato in sessione 
-        session()->put('idCarrello', $carrelloAutenticato->id);
-
-        // Carrello Autenticato in sessione
-        $carr = session('idCarrello');
+      
 
         // Aggiungo un ordine al carrello
-        $response = $this->post(route('ordine.store'), [
-            'ordine_testata_id' => $carr,
+        $response = $this->actingAs($user)->post(route('ordine.store'), [
             'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
         ]);
 
+        // Prendo l'id del carrello autenticato dell'ordine che ho inserito  
+        $idCarrelloAutenticato = OrdineRiga::where('ricambio_id', $ricambio->id)->value('ordine_testata_id');
 
 
         // ************ PRIMO ASSERT **************
-
-        // Controllo se in sessione c'è il carrello Autenticato 
-        $response->assertSessionHas('idCarrello', $carrelloAutenticato->id);
-
+        // Controllo se l'ordine ha creato un carrello (tipo = 0) autenticato (user->id)
+        $this->assertDatabaseHas('ordine_testate', [
+            'id' =>  $idCarrelloAutenticato,
+            'user_id' =>  $user->id,
+            'tipo' =>  0,
+        ]);
 
         // ************ SECONDO ASSERT **************
-        
         // Controllo se l'ordine e stato aggiunto 
         $this->assertDatabaseHas('ordine_righe', [
-            'ordine_testata_id' => $carr,
+            'ordine_testata_id' => $idCarrelloAutenticato, 
             'ricambio_id' =>  $ricambio->id,
             'quantità' =>  1,
         ]);
+
     }
 }
