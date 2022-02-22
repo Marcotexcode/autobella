@@ -40,7 +40,7 @@ class OrdineTestata extends Model
         return $carrello;
     }
 
-    // Carrello Utnte
+    // Carrello Utente
     public static function carrelloUtente()
     {
         $carrello = OrdineTestata::where('user_id', Auth::user()->id)->where('tipo', 0);

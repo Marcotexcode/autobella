@@ -32,16 +32,25 @@ class IndirizzoController extends Controller
 
     public function store(Request $request)
     {
+
+        $request->validate([
+            'indirizzo' => 'required|string',
+            'telefono' => 'required|integer',
+        ]);
+
+        // FUNZIONE 
+        $idCarrello = OrdineTestata::carrelloUtente()->value('id');
+
         $user = User::where('id', Auth::user()->id)->get();
 
-        OrdineTestata::where('user_id', Auth::user()->id)->update([
+        $pro = OrdineTestata::where('user_id', Auth::user()->id)->where('id', $idCarrello)->update([
             'indirizzo' => $request->indirizzo,
             'telefono' => $request->telefono,
             'tipo' => 1
         ]);
-
+        
         // Per inviare una notifica customizzata inserendo l'utente autenticato
-        Mail::to($user)->send(new OrdineInviato);     
+        Mail::to($user)->send(new OrdineInviato($idCarrello));     
         
         return redirect()->route('speditoOrdine');
     }
