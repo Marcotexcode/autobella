@@ -34,7 +34,7 @@ use App\Http\Middleware\Carrello;
 
 Auth::routes();
 
-// middleweare carrello 
+// middleweare carrello
 Route::middleware(Carrello::class)->group(function () {
     Route::view('/', 'welcome');
     Route::resource('/', WelcomeController::class);
@@ -44,13 +44,14 @@ Route::middleware(Carrello::class)->group(function () {
 });
 
 
+
 // Rotte per amministratore
 Route::middleware('can:administer')->prefix('admin')->group(function () {
     Route::resource('categorie', CategorieController::class);
     Route::resource('modelli', ModelliController::class);
     Route::resource('marche', MarcheController::class);
     Route::resource('ricambi', RicambiController::class);
-    Route::resource('fornitori', FornitoriController::class);   
+    Route::resource('fornitori', FornitoriController::class);
 });
 
 Route::post('/filtro', [WelcomeController::class, 'filtroRicerca'])->name('filtroRicerca');

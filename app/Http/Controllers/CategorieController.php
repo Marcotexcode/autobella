@@ -30,7 +30,6 @@ class CategorieController extends Controller
     public function create(Categoria  $categorie)
     {
         return view('categorie.create');
-
     }
 
     /**
@@ -90,7 +89,7 @@ class CategorieController extends Controller
         ]);
 
         $categorie->update($request->all());
-        
+
         return redirect()->route('categorie.index');
     }
 

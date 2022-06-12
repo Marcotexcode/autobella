@@ -49,7 +49,27 @@ class IndirizzoTest extends TestCase
         ]);
     }
 
+    public function test_email_ordine_inviato()
+    {   
+        // Creo un utente
+        $user = User::factory()->create();
 
+        // Creo un carrello
+        $carrello =  Ordinetestata::factory([
+            'user_id' => $user->id,
+            'tipo' => 0
+        ])->create();
+
+        // Creao una mail
+        Mail::fake();
+
+        // Invio la mail con il parametro
+        Mail::to($user)->send(new OrdineInviato($carrello->id)); 
+
+        // Controllo che la mail e stata inviata
+        Mail::assertSent(OrdineInviato::class);
+
+    }
 
 }
 

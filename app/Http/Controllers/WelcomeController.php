@@ -22,14 +22,28 @@ class WelcomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $ricambi = Ricambio::query();
-        
-        $filtriRicerca = session('filtriRicerca');
-        $modelli = Modello::all();  
-        $marche = Marca::all();       
 
-       
+
+        // PROVA **************************
+        $ric = Ricambio::all();
+        foreach ($ric as $value) {
+            foreach ($value->modelli as $item) {
+                //dd($item);
+
+            }
+        }
+        // PROVA **************************
+
+
+
+
+        $filtriRicerca = session('filtriRicerca');
+        $modelli = Modello::all();
+        $marche = Marca::all();
+
+
         // Filtri Search
         if(isset($filtriRicerca['nomeRicambio'])) {
             $ricambi = $ricambi->where('codice', 'LIKE', "%{$filtriRicerca['nomeRicambio']}%");
@@ -41,7 +55,7 @@ class WelcomeController extends Controller
             });
         }
 
-        if(isset($filtriRicerca['modelloAuto'])) { 
+        if(isset($filtriRicerca['modelloAuto'])) {
             $ricambi = $ricambi->whereHas('modelli', function (Builder $query) use($filtriRicerca) {
                 $query->where('nome', 'LIKE', "%{$filtriRicerca['modelloAuto']}%");
             });
@@ -56,28 +70,28 @@ class WelcomeController extends Controller
         // Creare variabile per il totale delle righe a 0
         $totaleRigheOrdine = 0;
 
-        // Creare un array vuoto nel caso le condizioni sono false 
+        // Creare un array vuoto nel caso le condizioni sono false
         $carrelli= [];
 
-        // Se in sessione c'è un carrello 
+        // Se in sessione c'è un carrello
         if (session('idCarrello')) {
 
-            // FUNZIONE Prendi il carrello anonimo 
+            // FUNZIONE Prendi il carrello anonimo
             $carrelli = OrdineTestata::carrelloAnonimo()->get();
-        
-        // Se sei autenticato 
+
+        // Se sei autenticato
         } elseif(Auth::user()) {
 
-            // FUNZIONE Prendi il carrello autenticato 
+            // FUNZIONE Prendi il carrello autenticato
             $carrelli = OrdineTestata::carrelloUtente()->get();
 
         }
 
-        // Prendere tutti i record della colonna row_order_id 
-        foreach ($carrelli as $carrello) { 
-            // Sommare quantity 
-            $totaleRigheOrdine = $totaleRigheOrdine + $carrello->ordine_righe->sum('quantità');  
-        } 
+        // Prendere tutti i record della colonna row_order_id
+        foreach ($carrelli as $carrello) {
+            // Sommare quantity
+            $totaleRigheOrdine = $totaleRigheOrdine + $carrello->ordine_righe->sum('quantità');
+        }
         $idCarrello = session('idCarrello');
         $ricambi = $ricambi->get();
         
@@ -94,7 +108,7 @@ class WelcomeController extends Controller
         );
 
         session()->put('filtriRicerca', $datiRicerca);
-        
+
         return redirect('/');
     }
 }
